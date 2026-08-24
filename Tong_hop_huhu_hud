@@ -1,5 +1,5 @@
 --[[
-    HUHU HUB - FULL CODE (Fixed Direct Execution for All Hubs)
+    HUHU HUB V2 - BLUE THEME ULTIMATE EDITION (SMOOTH AUTO CHEST FIXED)
 ]]--
 
 local UserInputService = game:GetService("UserInputService")
@@ -29,12 +29,12 @@ local function CreateLogo()
 
     LogoBtn = Instance.new("TextButton")
     LogoBtn.Parent = LogoGui
-    LogoBtn.BackgroundColor3 = Color3.fromRGB(12, 18, 30)
+    LogoBtn.BackgroundColor3 = Color3.fromRGB(8, 25, 45)
     LogoBtn.Position = UDim2.new(0, 30, 0.5, -35)
     LogoBtn.Size = UDim2.new(0, 70, 0, 70)
     LogoBtn.Font = Enum.Font.FredokaOne
     LogoBtn.Text = "HUHU"
-    LogoBtn.TextColor3 = Color3.fromRGB(130, 210, 255)
+    LogoBtn.TextColor3 = Color3.fromRGB(100, 200, 255)
     LogoBtn.TextSize = 14
     LogoBtn.Active = true
     LogoBtn.Draggable = true
@@ -44,9 +44,82 @@ local function CreateLogo()
     LCorner.Parent = LogoBtn
 
     local LStroke = Instance.new("UIStroke")
-    LStroke.Color = Color3.fromRGB(30, 144, 255)
-    LStroke.Thickness = 2
+    LStroke.Color = Color3.fromRGB(0, 150, 255)
+    LStroke.Thickness = 2.5
     LStroke.Parent = LogoBtn
+end
+
+-- AUTO CHEST LOGIC (Tối ưu quét và bay mượt, không khựng)
+local _G_AutoChest = false
+
+local function GetNearestChest()
+    local nearestChest = nil
+    local shortestDist = math.huge
+    local char = Player.Character
+    if not char or not char:FindFirstChild("HumanoidRootPart") then return nil end
+    local hrp = char.HumanoidRootPart
+
+    for _, obj in pairs(workspace:GetDescendants()) do
+        if obj:IsA("BasePart") then
+            local name = string.lower(obj.Name)
+            if string.find(name, "chest") or string.find(name, "box") or string.find(name, "hop") or string.find(name, "qua") then
+                if obj.Transparency < 1 and obj.Position.Y > -1000 then
+                    local dist = (hrp.Position - obj.Position).Magnitude
+                    if dist < shortestDist then
+                        shortestDist = dist
+                        nearestChest = obj
+                    end
+                end
+            end
+        end
+    end
+
+    return nearestChest
+end
+
+local function ToggleAutoChest(state)
+    _G_AutoChest = state
+    task.spawn(function()
+        while _G_AutoChest do
+            local success, err = pcall(function()
+                local char = Player.Character
+                if char and char:FindFirstChild("HumanoidRootPart") and char:FindFirstChildOfClass("Humanoid") then
+                    local hrp = char.HumanoidRootPart
+                    local hum = char:FindFirstChildOfClass("Humanoid")
+                    local targetChest = GetNearestChest()
+                    
+                    if targetChest then
+                        hum.PlatformStand = true
+                        local targetCFrame = targetChest.CFrame + Vector3.new(0, 3, 0)
+                        local distance = (hrp.Position - targetCFrame.Position).Magnitude
+                        
+                        local flySpeed = 700 
+                        local travelTime = distance / flySpeed
+                        if travelTime < 0.01 then travelTime = 0.01 end
+
+                        local tweenInfo = TweenInfo.new(travelTime, Enum.EasingStyle.Linear, Enum.EasingDirection.Out)
+                        local tween = TweenService:Create(hrp, tweenInfo, {CFrame = targetCFrame})
+                        tween:Play()
+                        
+                        task.wait(travelTime)
+                        hum.PlatformStand = false
+                    else
+                        hum.PlatformStand = false
+                        task.wait(0.3)
+                    end
+                end
+            end)
+            if not success then
+                task.wait(0.5)
+            end
+            task.wait(0.02)
+        end
+        pcall(function()
+            if Player.Character and Player.Character:FindFirstChildOfClass("Humanoid") then
+                Player.Character:FindFirstChildOfClass("Humanoid").PlatformStand = false
+            end
+        end)
+    end)
 end
 
 local function LoadMainMenu()
@@ -59,7 +132,7 @@ local function LoadMainMenu()
 
     local MainFrame = Instance.new("Frame")
     MainFrame.Parent = MainGui
-    MainFrame.BackgroundColor3 = Color3.fromRGB(12, 18, 30)
+    MainFrame.BackgroundColor3 = Color3.fromRGB(6, 18, 36)
     MainFrame.BorderSizePixel = 0
     MainFrame.Position = UDim2.new(0.5, -300, 0.5, -190)
     MainFrame.Size = UDim2.new(0, 600, 0, 380)
@@ -78,8 +151,8 @@ local function LoadMainMenu()
     MCorner.Parent = MainFrame
 
     local MStroke = Instance.new("UIStroke")
-    MStroke.Color = Color3.fromRGB(30, 144, 255)
-    MStroke.Thickness = 1.5
+    MStroke.Color = Color3.fromRGB(0, 140, 255)
+    MStroke.Thickness = 2
     MStroke.Parent = MainFrame
 
     local menuOpen = true
@@ -111,7 +184,7 @@ local function LoadMainMenu()
 
     local TopBar = Instance.new("Frame")
     TopBar.Parent = MainFrame
-    TopBar.BackgroundColor3 = Color3.fromRGB(8, 13, 22)
+    TopBar.BackgroundColor3 = Color3.fromRGB(4, 12, 26)
     TopBar.BorderSizePixel = 0
     TopBar.Size = UDim2.new(1, 0, 0, 40)
 
@@ -126,13 +199,13 @@ local function LoadMainMenu()
     TitleLbl.Size = UDim2.new(0, 180, 1, 0)
     TitleLbl.Font = Enum.Font.FredokaOne
     TitleLbl.Text = "HUHU HUB V2"
-    TitleLbl.TextColor3 = Color3.fromRGB(130, 210, 255)
+    TitleLbl.TextColor3 = Color3.fromRGB(100, 210, 255)
     TitleLbl.TextSize = 15
     TitleLbl.TextXAlignment = Enum.TextXAlignment.Left
 
     local SearchIconBtn = Instance.new("TextButton")
     SearchIconBtn.Parent = TopBar
-    SearchIconBtn.BackgroundColor3 = Color3.fromRGB(20, 35, 60)
+    SearchIconBtn.BackgroundColor3 = Color3.fromRGB(10, 35, 70)
     SearchIconBtn.Position = UDim2.new(1, -38, 0.5, -11)
     SearchIconBtn.Size = UDim2.new(0, 26, 0, 22)
     SearchIconBtn.Font = Enum.Font.GothamBold
@@ -146,12 +219,12 @@ local function LoadMainMenu()
 
     local MainSearchBox = Instance.new("TextBox")
     MainSearchBox.Parent = TopBar
-    MainSearchBox.BackgroundColor3 = Color3.fromRGB(15, 24, 40)
+    MainSearchBox.BackgroundColor3 = Color3.fromRGB(8, 24, 50)
     MainSearchBox.Position = UDim2.new(1, -245, 0.5, -11)
     MainSearchBox.Size = UDim2.new(0, 200, 0, 22)
     MainSearchBox.Font = Enum.Font.GothamMedium
     MainSearchBox.PlaceholderText = "Tìm kiếm kịch bản..."
-    MainSearchBox.PlaceholderColor3 = Color3.fromRGB(100, 130, 170)
+    MainSearchBox.PlaceholderColor3 = Color3.fromRGB(100, 150, 200)
     MainSearchBox.Text = ""
     MainSearchBox.TextColor3 = Color3.fromRGB(255, 255, 255)
     MainSearchBox.TextSize = 11
@@ -166,7 +239,7 @@ local function LoadMainMenu()
 
     local TabBar = Instance.new("ScrollingFrame")
     TabBar.Parent = MainFrame
-    TabBar.BackgroundColor3 = Color3.fromRGB(15, 23, 38)
+    TabBar.BackgroundColor3 = Color3.fromRGB(8, 22, 44)
     TabBar.BorderSizePixel = 0
     TabBar.Position = UDim2.new(0, 0, 0, 40)
     TabBar.Size = UDim2.new(0, 150, 1, -40)
@@ -190,11 +263,11 @@ local function LoadMainMenu()
     local function CreateTab(tabName)
         local TabBtn = Instance.new("TextButton")
         TabBtn.Parent = TabBar
-        TabBtn.BackgroundColor3 = Color3.fromRGB(20, 30, 50)
+        TabBtn.BackgroundColor3 = Color3.fromRGB(12, 35, 70)
         TabBtn.Size = UDim2.new(1, 0, 0, 38)
         TabBtn.Font = Enum.Font.GothamBold
         TabBtn.Text = "  " .. tabName
-        TabBtn.TextColor3 = Color3.fromRGB(160, 190, 230)
+        TabBtn.TextColor3 = Color3.fromRGB(150, 210, 255)
         TabBtn.TextSize = 12
         TabBtn.TextXAlignment = Enum.TextXAlignment.Left
 
@@ -206,14 +279,14 @@ local function LoadMainMenu()
         PageFrame.Parent = Container
         PageFrame.BackgroundTransparency = 1
         PageFrame.Size = UDim2.new(1, 0, 1, 0)
-        PageFrame.CanvasSize = UDim2.new(0, 0, 0, 950)
+        PageFrame.CanvasSize = UDim2.new(0, 0, 0, 1500)
         PageFrame.ScrollBarThickness = 3
         PageFrame.Visible = false
 
         local ContentListHolder = Instance.new("Frame")
         ContentListHolder.Parent = PageFrame
         ContentListHolder.BackgroundTransparency = 1
-        ContentListHolder.Size = UDim2.new(1, 0, 0, 900)
+        ContentListHolder.Size = UDim2.new(1, 0, 0, 1450)
 
         local HolderLayout = Instance.new("UIListLayout")
         HolderLayout.Parent = ContentListHolder
@@ -263,7 +336,7 @@ local function LoadMainMenu()
 
         if firstTab then
             PageFrame.Visible = true
-            TabBtn.BackgroundColor3 = Color3.fromRGB(0, 110, 230)
+            TabBtn.BackgroundColor3 = Color3.fromRGB(0, 130, 255)
             TabBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
             firstTab = false
         end
@@ -272,12 +345,12 @@ local function LoadMainMenu()
             for _, p in pairs(pages) do p.Visible = false end
             for _, b in pairs(TabBar:GetChildren()) do
                 if b:IsA("TextButton") then
-                    b.BackgroundColor3 = Color3.fromRGB(20, 30, 50)
-                    b.TextColor3 = Color3.fromRGB(160, 190, 230)
+                    b.BackgroundColor3 = Color3.fromRGB(12, 35, 70)
+                    b.TextColor3 = Color3.fromRGB(150, 210, 255)
                 end
             end
             PageFrame.Visible = true
-            TabBtn.BackgroundColor3 = Color3.fromRGB(0, 110, 230)
+            TabBtn.BackgroundColor3 = Color3.fromRGB(0, 130, 255)
             TabBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
         end)
 
@@ -303,7 +376,7 @@ local function LoadMainMenu()
             SecLbl.Size = UDim2.new(1, 0, 1, 0)
             SecLbl.Font = Enum.Font.GothamBold
             SecLbl.Text = name
-            SecLbl.TextColor3 = Color3.fromRGB(100, 180, 255)
+            SecLbl.TextColor3 = Color3.fromRGB(100, 190, 255)
             SecLbl.TextSize = 11
             SecLbl.TextXAlignment = Enum.TextXAlignment.Center
             return
@@ -313,11 +386,10 @@ local function LoadMainMenu()
         local btnWidthOffset = hideCopy and 0 or -40
         local Btn = Instance.new("TextButton")
         Btn.Parent = MainItemFrame
-        Btn.BackgroundColor3 = Color3.fromRGB(18, 28, 48)
+        Btn.BackgroundColor3 = Color3.fromRGB(10, 30, 60)
         Btn.Size = UDim2.new(1, btnWidthOffset, 1, 0)
         Btn.Font = Enum.Font.GothamBold
         Btn.Text = ""
-        Btn.TextColor3 = Color3.fromRGB(210, 230, 255)
 
         local BCorner = Instance.new("UICorner")
         BCorner.CornerRadius = UDim.new(0, 6)
@@ -331,7 +403,7 @@ local function LoadMainMenu()
         NameLbl.Size = UDim2.new(1, -15, 1, 0)
         NameLbl.Font = Enum.Font.GothamBold
         NameLbl.Text = name
-        NameLbl.TextColor3 = Color3.fromRGB(210, 230, 255)
+        NameLbl.TextColor3 = Color3.fromRGB(200, 230, 255)
         NameLbl.TextSize = 11
         NameLbl.TextXAlignment = Enum.TextXAlignment.Left
         NameLbl.TextTruncate = Enum.TextTruncate.AtEnd
@@ -339,7 +411,7 @@ local function LoadMainMenu()
         if not hideCopy then
             local CopyBtn = Instance.new("TextButton")
             CopyBtn.Parent = MainItemFrame
-            CopyBtn.BackgroundColor3 = Color3.fromRGB(20, 40, 70)
+            CopyBtn.BackgroundColor3 = Color3.fromRGB(15, 50, 100)
             CopyBtn.Position = UDim2.new(1, -32, 0, 0)
             CopyBtn.Size = UDim2.new(0, 32, 1, 0)
             CopyBtn.Font = Enum.Font.GothamBold
@@ -366,17 +438,17 @@ local function LoadMainMenu()
                 active = not active
                 if active then
                     NameLbl.Text = "[ ON ] " .. name
-                    Btn.BackgroundColor3 = Color3.fromRGB(0, 120, 240)
+                    Btn.BackgroundColor3 = Color3.fromRGB(0, 120, 255)
                 else
                     NameLbl.Text = "[ OFF ] " .. name
-                    Btn.BackgroundColor3 = Color3.fromRGB(18, 28, 48)
+                    Btn.BackgroundColor3 = Color3.fromRGB(10, 30, 60)
                 end
                 pcall(function() callback(active, Btn, NameLbl) end)
             end)
         elseif typeStyle == "button" then
-            Btn.BackgroundColor3 = Color3.fromRGB(15, 50, 100)
+            Btn.BackgroundColor3 = Color3.fromRGB(12, 45, 90)
             Btn.MouseButton1Click:Connect(function()
-                pcall(function() callback() end)
+                pcall(function() callback(NameLbl) end)
             end)
         end
     end
@@ -384,13 +456,193 @@ local function LoadMainMenu()
     -- TAB 1: Hỗ Trợ
     local SupportHolder = CreateTab("Hỗ Trợ")
     AddElement(SupportHolder, "── TRẠNG THÁI NGƯỜI CHƠI ──", "section")
-    AddElement(SupportHolder, "👤 Tên: " .. Player.Name, "button", function() end)
-    AddElement(SupportHolder, "⚡ Trạng thái: Hoạt động tốt", "button", function() end)
+    
+    AddElement(SupportHolder, "👤 Tên: " .. Player.Name, "button", function(lbl) end)
+    AddElement(SupportHolder, "🆔 ID: " .. Player.UserId, "button", function(lbl) end)
+    
+    local StatItemFrame = Instance.new("Frame")
+    StatItemFrame.Parent = SupportHolder
+    StatItemFrame.BackgroundTransparency = 1
+    StatItemFrame.Size = UDim2.new(1, -15, 0, 36)
+    
+    local StatBtn = Instance.new("TextButton")
+    StatBtn.Parent = StatItemFrame
+    StatBtn.BackgroundColor3 = Color3.fromRGB(12, 45, 90)
+    StatBtn.Size = UDim2.new(1, 0, 1, 0)
+    StatBtn.Font = Enum.Font.GothamBold
+    StatBtn.Text = ""
+    Instance.new("UICorner", StatBtn).CornerRadius = UDim.new(0, 6)
+    
+    local StatLbl = Instance.new("TextLabel")
+    StatLbl.Name = "ItemName"
+    StatLbl.Parent = StatBtn
+    StatLbl.BackgroundTransparency = 1
+    StatLbl.Position = UDim2.new(0, 10, 0, 0)
+    StatLbl.Size = UDim2.new(1, -15, 1, 0)
+    StatLbl.Font = Enum.Font.GothamBold
+    StatLbl.Text = "⭐ Level: Đang cập nhật..."
+    StatLbl.TextColor3 = Color3.fromRGB(200, 230, 255)
+    StatLbl.TextSize = 11
+    StatLbl.TextXAlignment = Enum.TextXAlignment.Left
 
-    -- TAB 2: Blox Fruit (Tất cả đều chạy trực tiếp)
+    local HealthItemFrame = Instance.new("Frame")
+    HealthItemFrame.Parent = SupportHolder
+    HealthItemFrame.BackgroundTransparency = 1
+    HealthItemFrame.Size = UDim2.new(1, -15, 0, 36)
+    local HealthBtn = Instance.new("TextButton", HealthItemFrame)
+    HealthBtn.BackgroundColor3 = Color3.fromRGB(12, 45, 90)
+    HealthBtn.Size = UDim2.new(1, 0, 1, 0)
+    HealthBtn.Text = ""
+    Instance.new("UICorner", HealthBtn).CornerRadius = UDim.new(0, 6)
+    local HealthLbl = Instance.new("TextLabel", HealthBtn)
+    HealthLbl.Name = "ItemName"
+    HealthLbl.BackgroundTransparency = 1
+    HealthLbl.Position = UDim2.new(0, 10, 0, 0)
+    HealthLbl.Size = UDim2.new(1, -15, 1, 0)
+    HealthLbl.Font = Enum.Font.GothamBold
+    HealthLbl.Text = "❤️ Máu: Đang cập nhật..."
+    HealthLbl.TextColor3 = Color3.fromRGB(255, 130, 130)
+    HealthLbl.TextSize = 11
+    HealthLbl.TextXAlignment = Enum.TextXAlignment.Left
+
+    local ManaItemFrame = Instance.new("Frame")
+    ManaItemFrame.Parent = SupportHolder
+    ManaItemFrame.BackgroundTransparency = 1
+    ManaItemFrame.Size = UDim2.new(1, -15, 0, 36)
+    local ManaBtn = Instance.new("TextButton", ManaItemFrame)
+    ManaBtn.BackgroundColor3 = Color3.fromRGB(12, 45, 90)
+    ManaBtn.Size = UDim2.new(1, 0, 1, 0)
+    ManaBtn.Text = ""
+    Instance.new("UICorner", ManaBtn).CornerRadius = UDim.new(0, 6)
+    local ManaLbl = Instance.new("TextLabel", ManaBtn)
+    ManaLbl.Name = "ItemName"
+    ManaLbl.BackgroundTransparency = 1
+    ManaLbl.Position = UDim2.new(0, 10, 0, 0)
+    ManaLbl.Size = UDim2.new(1, -15, 1, 0)
+    ManaLbl.Font = Enum.Font.GothamBold
+    ManaLbl.Text = "⚡ Năng Lượng (Mana): Đang cập nhật..."
+    ManaLbl.TextColor3 = Color3.fromRGB(130, 220, 255)
+    ManaLbl.TextSize = 11
+    ManaLbl.TextXAlignment = Enum.TextXAlignment.Left
+
+    task.spawn(function()
+        while task.wait(0.5) do
+            pcall(function()
+                if Player.Character and Player.Character:FindFirstChildOfClass("Humanoid") then
+                    local hum = Player.Character:FindFirstChildOfClass("Humanoid")
+                    HealthLbl.Text = string.format("❤️ Máu: %d / %d", math.floor(hum.Health), math.floor(hum.MaxHealth))
+                end
+
+                local foundLevel = nil
+                local leaderstats = Player:FindFirstChild("leaderstats")
+                if leaderstats then
+                    local lvl = leaderstats:FindFirstChild("Level") or leaderstats:FindFirstChild("LV") or leaderstats:FindFirstChild("Lvl")
+                    if lvl then foundLevel = lvl.Value end
+                end
+                if not foundLevel then
+                    local data = Player:FindFirstChild("Data") or Player:FindFirstChild("PlayerData")
+                    if data then
+                        local lvl = data:FindFirstChild("Level") or data:FindFirstChild("LV")
+                        if lvl then foundLevel = lvl.Value end
+                    end
+                end
+                if foundLevel then
+                    StatLbl.Text = "⭐ Level: " .. tostring(foundLevel)
+                else
+                    StatLbl.Text = "⭐ Level: Không hỗ trợ game này"
+                end
+
+                local foundEnergy = nil
+                local stats = Player:FindFirstChild("Data") or Player:FindFirstChild("stats")
+                if stats and stats:FindFirstChild("Energy") then
+                    foundEnergy = stats.Energy.Value
+                elseif Player.Character and Player.Character:FindFirstChild("Energy") then
+                    foundEnergy = Player.Character.Energy.Value
+                elseif Player:FindFirstChild("Energy") then
+                    foundEnergy = Player.Energy.Value
+                end
+                
+                if foundEnergy then
+                    ManaLbl.Text = "⚡ Năng Lượng (Mana): " .. tostring(math.floor(foundEnergy))
+                else
+                    ManaLbl.Text = "⚡ Năng Lượng (Mana): Đầy đủ"
+                end
+            end)
+        end
+    end)
+
+    local ServerTimeLbl = Instance.new("Frame")
+    ServerTimeLbl.Parent = SupportHolder
+    ServerTimeLbl.BackgroundTransparency = 1
+    ServerTimeLbl.Size = UDim2.new(1, -15, 0, 36)
+    
+    local STBtn = Instance.new("TextButton")
+    STBtn.Parent = ServerTimeLbl
+    STBtn.BackgroundColor3 = Color3.fromRGB(12, 35, 70)
+    STBtn.Size = UDim2.new(1, 0, 1, 0)
+    STBtn.Font = Enum.Font.GothamBold
+    STBtn.Text = ""
+    Instance.new("UICorner", STBtn).CornerRadius = UDim.new(0, 6)
+    
+    local STText = Instance.new("TextLabel")
+    STText.Name = "ItemName"
+    STText.Parent = STBtn
+    STText.BackgroundTransparency = 1
+    STText.Position = UDim2.new(0, 10, 0, 0)
+    STText.Size = UDim2.new(1, -15, 1, 0)
+    STText.Font = Enum.Font.GothamBold
+    STText.Text = "⏳ Thời Gian Máy Chủ: 00:00:00"
+    STText.TextColor3 = Color3.fromRGB(0, 255, 180)
+    STText.TextSize = 11
+    STText.TextXAlignment = Enum.TextXAlignment.Left
+
+    task.spawn(function()
+        while task.wait(1) do
+            pcall(function()
+                local uptime = workspace.DistributedGameTime
+                local hours = math.floor(uptime / 3600)
+                local mins = math.floor((uptime % 3600) / 60)
+                local secs = math.floor(uptime % 60)
+                STText.Text = string.format("⏳ Thời Gian Máy Chủ: %02d:%02d:%02d", hours, mins, secs)
+            end)
+        end
+    end)
+
+    AddElement(SupportHolder, "── BAY TỚI NGƯỜI CHƠI TRONG SERVER ──", "section")
+    
+    local SelectPlayerBox = Instance.new("TextBox")
+    SelectPlayerBox.Parent = SupportHolder
+    SelectPlayerBox.BackgroundColor3 = Color3.fromRGB(10, 24, 50)
+    SelectPlayerBox.Size = UDim2.new(1, -15, 0, 36)
+    SelectPlayerBox.PlaceholderText = "Nhập tên người chơi cần bay tới..."
+    SelectPlayerBox.PlaceholderColor3 = Color3.fromRGB(110, 150, 200)
+    SelectPlayerBox.Text = ""
+    SelectPlayerBox.TextColor3 = Color3.fromRGB(255, 255, 255)
+    SelectPlayerBox.Font = Enum.Font.GothamBold
+    SelectPlayerBox.TextSize = 11
+    Instance.new("UICorner", SelectPlayerBox).CornerRadius = UDim.new(0, 6)
+
+    AddElement(SupportHolder, "✈️ Bấm để dịch chuyển/bay đến người chơi", "button", function()
+        pcall(function()
+            local targetNameInput = string.lower(SelectPlayerBox.Text)
+            for _, p in pairs(Players:GetPlayers()) do
+                if p ~= Player and (string.find(string.lower(p.Name), targetNameInput) or string.find(string.lower(p.DisplayName), targetNameInput)) then
+                    if p.Character and p.Character:FindFirstChild("HumanoidRootPart") and Player.Character and Player.Character:FindFirstChild("HumanoidRootPart") then
+                        Player.Character.HumanoidRootPart.CFrame = p.Character.HumanoidRootPart.CFrame + Vector3.new(0, 3, 0)
+                    end
+                end
+            end
+        end)
+    end)
+
+    -- TAB 2: Blox Fruit
     local BloxFruitHolder = CreateTab("Blox Fruit")
     AddElement(BloxFruitHolder, "── MENU & FARM HUB CHÍNH ──", "section")
     
+    AddElement(BloxFruitHolder, "💰 Auto Lụm Rương (Bay Lướt Mượt)", "toggle", function(v)
+        ToggleAutoChest(v)
+    end)
+
     AddElement(BloxFruitHolder, "⚡ BẬT REDZ EMERALD", "button", function()
         pcall(function()
             loadstring(game:HttpGet("https://raw.githubusercontent.com/bloxfruitsnokey/Redz/refs/heads/main/Emerald/script.luau"))()
@@ -409,7 +661,18 @@ local function LoadMainMenu()
         end)
     end, 'loadstring(game:HttpGet("https://raw.githubusercontent.com/huy384/redzHub/refs/heads/main/redzHub.lua"))()')
 
-    -- MỤC KAITUN
+    AddElement(BloxFruitHolder, "🧸 BẬT TEDDY HUB", "button", function()
+        pcall(function()
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/Teddyseetink/Haidepzai/refs/heads/main/TeddyHub.lua"))()
+        end)
+    end, 'loadstring(game:HttpGet("https://raw.githubusercontent.com/Teddyseetink/Haidepzai/refs/heads/main/TeddyHub.lua"))()')
+
+    AddElement(BloxFruitHolder, "🪐 BẬT GRAVITY HUB", "button", function()
+        pcall(function()
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/GravityHub/BloxFruit/refs/heads/main/Main.lua"))()
+        end)
+    end, 'loadstring(game:HttpGet("https://raw.githubusercontent.com/GravityHub/BloxFruit/refs/heads/main/Main.lua"))()')
+
     AddElement(BloxFruitHolder, "── SCRIPT KAITUN (CÓ SẴN CONFIG) ──", "section")
 
     AddElement(BloxFruitHolder, "🤖 BẬT KAITUN (RealKid Hub)", "button", function()
@@ -422,38 +685,14 @@ local function LoadMainMenu()
                     ["Pull Lerver"] = true;
                 };
                 Sword = {
-                    "Dual-Headed Blade";
-                    "Smoke Admiral";
-                    "Wardens Sword";
-                    "Cutlass";
-                    "Katana";
-                    "Dual Katana";
-                    "Triple Katana";
-                    "Iron Mace";
-                    "Saber";
-                    "Pole (1st Form)";
-                    "Gravity Blade";
-                    "Longsword";
-                    "Rengoku";
-                    "Midnight Blade";
-                    "Soul Cane";
-                    "Bisento";
-                    "Yama";
-                    "Tushita";
-                    "Cursed Dual Katana";
+                    "Dual-Headed Blade"; "Smoke Admiral"; "Wardens Sword"; "Cutlass"; "Katana";
+                    "Dual Katana"; "Triple Katana"; "Iron Mace"; "Saber"; "Pole (1st Form)";
+                    "Gravity Blade"; "Longsword"; "Rengoku"; "Midnight Blade"; "Soul Cane";
+                    "Bisento"; "Yama"; "Tushita"; "Cursed Dual Katana";
                 };
                 Gun = {
-                    "Skull Guitar";
-                    "Kabucha";
-                    "Venom Bow";
-                    "Musket";
-                    "Flintlock";
-                    "Refined Slingshot";
-                    "Magma Blaster";
-                    "Dual Flintlock";
-                    "Cannon";
-                    "Bizarre Revolver";
-                    "Bazooka";
+                    "Skull Guitar"; "Kabucha"; "Venom Bow"; "Musket"; "Flintlock";
+                    "Refined Slingshot"; "Magma Blaster"; "Dual Flintlock"; "Cannon"; "Bizarre Revolver"; "Bazooka";
                 };
                 ["Bypass TP"] = true;
                 ["Auto Active Race V4"] = true;
@@ -469,6 +708,18 @@ local function LoadMainMenu()
             loadstring(game:HttpGet("https://raw.githubusercontent.com/AhmadV99/Speed-Hub-X/main/Speed%20Hub%20X.lua"))()
         end)
     end, 'loadstring(game:HttpGet("https://raw.githubusercontent.com/AhmadV99/Speed-Hub-X/main/Speed%20Hub%20X.lua"))()')
+
+    AddElement(BloxFruitHolder, "💎 BẬT BLUE-X HUB", "button", function()
+        pcall(function()
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/Dev-BlueX/BlueX-Hub/refs/heads/main/Main.lua"))()
+        end)
+    end, 'loadstring(game:HttpGet("https://raw.githubusercontent.com/Dev-BlueX/BlueX-Hub/refs/heads/main/Main.lua"))()')
+
+    AddElement(BloxFruitHolder, "🔑 BẬT REALKID HUB (MAIN MENU)", "button", function()
+        pcall(function()
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/realkidhub/realkid/refs/heads/main/main.lua"))()
+        end)
+    end, 'loadstring(game:HttpGet("https://raw.githubusercontent.com/realkidhub/realkid/refs/heads/main/main.lua"))()')
 
     AddElement(BloxFruitHolder, "📦 OMGSHIT MAIN LOADER", "button", function()
         pcall(function()
@@ -516,10 +767,9 @@ local function LoadMainMenu()
         end)
     end, nil, true)
 
-    -- TÍNH NĂNG BAY (FLY)
     local FlyGui = nil
     local flyConn = nil
-    AddElement(SettingsHolder, "Bay Tự Do (Fly)", "toggle", function(v)
+    AddElement(SettingsHolder, "Bay Tự Do (Fly - Tốc độ 290 mượt)", "toggle", function(v)
         _G.FlyEnabled = v
         local cam = workspace.CurrentCamera
         local speed = 290
@@ -533,7 +783,7 @@ local function LoadMainMenu()
 
             local T_Up = Instance.new("TextButton")
             T_Up.Parent = FlyGui
-            T_Up.BackgroundColor3 = Color3.fromRGB(0, 120, 240)
+            T_Up.BackgroundColor3 = Color3.fromRGB(0, 130, 255)
             T_Up.Position = UDim2.new(1, -110, 0.5, -90)
             T_Up.Size = UDim2.new(0, 50, 0, 50)
             T_Up.Font = Enum.Font.GothamBold
@@ -544,7 +794,7 @@ local function LoadMainMenu()
 
             local T_Down = Instance.new("TextButton")
             T_Down.Parent = FlyGui
-            T_Down.BackgroundColor3 = Color3.fromRGB(0, 120, 240)
+            T_Down.BackgroundColor3 = Color3.fromRGB(0, 130, 255)
             T_Down.Position = UDim2.new(1, -110, 0.5, -30)
             T_Down.Size = UDim2.new(0, 50, 0, 50)
             T_Down.Font = Enum.Font.GothamBold
@@ -559,7 +809,7 @@ local function LoadMainMenu()
             T_Down.MouseButton1Down:Connect(function() movingDown = true end)
             T_Down.MouseButton1Up:Connect(function() movingDown = false end)
 
-            flyConn = RunService.RenderStepped:Connect(function()
+            flyConn = RunService.RenderStepped:Connect(function(dt)
                 if not _G.FlyEnabled then return end
                 local char = Player.Character
                 if char and char:FindFirstChild("HumanoidRootPart") and char:FindFirstChildOfClass("Humanoid") then
@@ -570,17 +820,20 @@ local function LoadMainMenu()
                     local bg = hrp:FindFirstChild("HuhuHub_Fly_BG")
 
                     if not bv then
-                        bv = Instance.new("BodyVelocity")
+                        bv = Instance.new("LinearVelocity")
                         bv.Name = "HuhuHub_Fly_BV"
                         bv.Parent = hrp
-                        bv.MaxForce = Vector3.new(math.huge, math.huge, math.huge)
-                        bv.Velocity = Vector3.new(0, 0, 0)
-
+                        bv.MaxForce = 9e9
+                        
+                        local att = Instance.new("Attachment", hrp)
+                        att.Name = "HuhuHub_Att"
+                        bv.Attachment0 = att
+                        
                         bg = Instance.new("BodyGyro")
                         bg.Name = "HuhuHub_Fly_BG"
                         bg.Parent = hrp
-                        bg.MaxTorque = Vector3.new(math.huge, math.huge, math.huge)
-                        bg.P = 9000
+                        bg.MaxTorque = Vector3.new(9e9, 9e9, 9e9)
+                        bg.P = 20000
                     end
 
                     hum.PlatformStand = true
@@ -589,7 +842,10 @@ local function LoadMainMenu()
                     local yVel = 0
                     if movingUp then yVel = speed elseif movingDown then yVel = -speed end
                     
-                    bv.Velocity = Vector3.new(moveDir.X, yVel, moveDir.Z)
+                    local targetVel = Vector3.new(moveDir.X, yVel, moveDir.Z)
+                    if hrp:FindFirstChild("HuhuHub_Fly_BV") then
+                        hrp.HuhuHub_Fly_BV.VectorVelocity = hrp.HuhuHub_Fly_BV.VectorVelocity:Lerp(targetVel, math.clamp(dt * 15, 0, 1))
+                    end
                     bg.CFrame = cam.CFrame
                 end
             end)
@@ -601,6 +857,7 @@ local function LoadMainMenu()
                 local hrp = char.HumanoidRootPart
                 if hrp:FindFirstChild("HuhuHub_Fly_BV") then hrp.HuhuHub_Fly_BV:Destroy() end
                 if hrp:FindFirstChild("HuhuHub_Fly_BG") then hrp.HuhuHub_Fly_BG:Destroy() end
+                if hrp:FindFirstChild("HuhuHub_Att") then hrp.HuhuHub_Att:Destroy() end
             end
             if Player.Character and Player.Character:FindFirstChildOfClass("Humanoid") then
                 Player.Character:FindFirstChildOfClass("Humanoid").PlatformStand = false
@@ -620,9 +877,9 @@ local function LoadMainMenu()
             lbl.Parent = fpsGui
             lbl.Size = UDim2.new(0, 160, 0, 32)
             lbl.Position = UDim2.new(0, 10, 0, 10)
-            lbl.BackgroundColor3 = Color3.fromRGB(10, 15, 25)
+            lbl.BackgroundColor3 = Color3.fromRGB(6, 18, 36)
             lbl.BackgroundTransparency = 0.3
-            lbl.TextColor3 = Color3.fromRGB(0, 255, 128)
+            lbl.TextColor3 = Color3.fromRGB(0, 255, 150)
             lbl.Font = Enum.Font.GothamBold
             lbl.TextSize = 13
             lbl.Text = "FPS: 0 | Ping: 0ms"
@@ -632,7 +889,7 @@ local function LoadMainMenu()
             corner.Parent = lbl
 
             local stroke = Instance.new("UIStroke")
-            stroke.Color = Color3.fromRGB(30, 144, 255)
+            stroke.Color = Color3.fromRGB(0, 150, 255)
             stroke.Thickness = 1
             stroke.Parent = lbl
 
@@ -671,7 +928,7 @@ local function LoadKeySystem()
 
     local KeyFrame = Instance.new("Frame")
     KeyFrame.Parent = KeyGui
-    KeyFrame.BackgroundColor3 = Color3.fromRGB(10, 18, 35)
+    KeyFrame.BackgroundColor3 = Color3.fromRGB(6, 18, 36)
     KeyFrame.BorderSizePixel = 0
     KeyFrame.Position = UDim2.new(0.5, -210, 0.5, -140)
     KeyFrame.Size = UDim2.new(0, 420, 0, 285)
@@ -681,13 +938,13 @@ local function LoadKeySystem()
     KCorner.Parent = KeyFrame
 
     local KStroke = Instance.new("UIStroke")
-    KStroke.Color = Color3.fromRGB(30, 144, 255)
-    KStroke.Thickness = 1.8
+    KStroke.Color = Color3.fromRGB(0, 150, 255)
+    KStroke.Thickness = 2
     KStroke.Parent = KeyFrame
 
     local TopBarKey = Instance.new("Frame")
     TopBarKey.Parent = KeyFrame
-    TopBarKey.BackgroundColor3 = Color3.fromRGB(6, 12, 24)
+    TopBarKey.BackgroundColor3 = Color3.fromRGB(4, 12, 26)
     TopBarKey.BorderSizePixel = 0
     TopBarKey.Size = UDim2.new(1, 0, 0, 45)
 
@@ -697,12 +954,12 @@ local function LoadKeySystem()
 
     local KeyLogo = Instance.new("TextButton")
     KeyLogo.Parent = TopBarKey
-    KeyLogo.BackgroundColor3 = Color3.fromRGB(12, 18, 30)
+    KeyLogo.BackgroundColor3 = Color3.fromRGB(8, 25, 45)
     KeyLogo.Position = UDim2.new(0, 10, 0.5, -16)
     KeyLogo.Size = UDim2.new(0, 32, 0, 32)
     KeyLogo.Font = Enum.Font.FredokaOne
     KeyLogo.Text = "HU"
-    KeyLogo.TextColor3 = Color3.fromRGB(130, 210, 255)
+    KeyLogo.TextColor3 = Color3.fromRGB(100, 200, 255)
     KeyLogo.TextSize = 10
     KeyLogo.Active = false
 
@@ -711,7 +968,7 @@ local function LoadKeySystem()
     KLCorner.Parent = KeyLogo
 
     local KLStroke = Instance.new("UIStroke")
-    KLStroke.Color = Color3.fromRGB(30, 144, 255)
+    KLStroke.Color = Color3.fromRGB(0, 150, 255)
     KLStroke.Thickness = 1.5
     KLStroke.Parent = KeyLogo
 
@@ -722,17 +979,17 @@ local function LoadKeySystem()
     Title.Size = UDim2.new(0, 350, 1, 0)
     Title.Font = Enum.Font.FredokaOne
     Title.Text = "HUHU HUB | Get Key"
-    Title.TextColor3 = Color3.fromRGB(120, 210, 255)
+    Title.TextColor3 = Color3.fromRGB(100, 210, 255)
     Title.TextSize = 15
     Title.TextXAlignment = Enum.TextXAlignment.Left
 
     local Box = Instance.new("TextBox")
     Box.Parent = KeyFrame
-    Box.BackgroundColor3 = Color3.fromRGB(15, 26, 48)
+    Box.BackgroundColor3 = Color3.fromRGB(10, 24, 50)
     Box.Position = UDim2.new(0.5, -180, 0, 68)
     Box.Size = UDim2.new(0, 360, 0, 42)
     Box.PlaceholderText = "Nhập Key vào đây..."
-    Box.PlaceholderColor3 = Color3.fromRGB(110, 140, 180)
+    Box.PlaceholderColor3 = Color3.fromRGB(110, 150, 200)
     Box.Text = ""
     Box.TextColor3 = Color3.fromRGB(255, 255, 255)
     Box.Font = Enum.Font.GothamBold
@@ -749,12 +1006,12 @@ local function LoadKeySystem()
     StatusLbl.Size = UDim2.new(1, -60, 0, 20)
     StatusLbl.Font = Enum.Font.GothamMedium
     StatusLbl.Text = "Nhắn cho chủ shop (@khiconchoiff) để lấy Key."
-    StatusLbl.TextColor3 = Color3.fromRGB(160, 190, 230)
+    StatusLbl.TextColor3 = Color3.fromRGB(150, 200, 255)
     StatusLbl.TextSize = 11
 
     local GetKeyBtn = Instance.new("TextButton")
     GetKeyBtn.Parent = KeyFrame
-    GetKeyBtn.BackgroundColor3 = Color3.fromRGB(14, 55, 120)
+    GetKeyBtn.BackgroundColor3 = Color3.fromRGB(12, 45, 90)
     GetKeyBtn.Position = UDim2.new(0, 30, 0, 160)
     GetKeyBtn.Size = UDim2.new(0, 170, 0, 42)
     GetKeyBtn.Font = Enum.Font.GothamBold
@@ -768,7 +1025,7 @@ local function LoadKeySystem()
 
     local CheckKeyBtn = Instance.new("TextButton")
     CheckKeyBtn.Parent = KeyFrame
-    CheckKeyBtn.BackgroundColor3 = Color3.fromRGB(0, 120, 245)
+    CheckKeyBtn.BackgroundColor3 = Color3.fromRGB(0, 130, 255)
     CheckKeyBtn.Position = UDim2.new(0, 220, 0, 160)
     CheckKeyBtn.Size = UDim2.new(0, 170, 0, 42)
     CheckKeyBtn.Font = Enum.Font.GothamBold
