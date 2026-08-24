@@ -745,6 +745,73 @@ local function LoadMainMenu()
         if LogoGui then LogoGui:Destroy() end
     end, nil, true)
     
+    AddElement(SettingsHolder, "── TÍNH NĂNG ĐẶC BIỆT 2026 ──", "section", nil, nil, true)
+
+    AddElement(SettingsHolder, "🌧️ Mưa 10 Trái Ác Quỷ Mới (Icon 2026 Xịn)", "button", function(lbl)
+        pcall(function()
+            lbl.Text = "⏳ Đang tạo mưa 10 trái..."
+            
+            local char = Player.Character
+            if not char or not char:FindFirstChild("HumanoidRootPart") then 
+                lbl.Text = "❌ Không thấy nhân vật!"
+                task.wait(2)
+                lbl.Text = "🌧️ Mưa 10 Trái Ác Quỷ Mới (Icon 2026 Xịn)"
+                return 
+            end
+            
+            local hrp = char.HumanoidRootPart
+
+            for i = 1, 10 do
+                task.spawn(function()
+                    local fruitPart = Instance.new("Part")
+                    fruitPart.Name = "RainFruit_2026_" .. i
+                    fruitPart.Size = Vector3.new(2.5, 2.5, 2.5)
+                    
+                    local randomX = math.random(-35, 35)
+                    local randomZ = math.random(-35, 35)
+                    fruitPart.Position = hrp.Position + Vector3.new(randomX, 45, randomZ)
+                    
+                    fruitPart.Material = Enum.Material.Neon
+                    fruitPart.Color = Color3.fromRGB(math.random(50,255), math.random(50,255), math.random(50,255))
+                    fruitPart.CanCollide = true
+                    fruitPart.Anchored = false
+                    
+                    -- Logo/Icon chuẩn hệ thống mới (2026)
+                    local decal = Instance.new("Decal")
+                    decal.Face = Enum.NormalId.Front
+                    decal.Texture = "rbxassetid://16062961882"
+                    decal.Parent = fruitPart
+
+                    local decal2 = decal:Clone()
+                    decal2.Face = Enum.NormalId.Back
+                    decal2.Parent = fruitPart
+
+                    local decal3 = decal:Clone()
+                    decal3.Face = Enum.NormalId.Top
+                    decal3.Parent = fruitPart
+
+                    fruitPart.Parent = workspace
+
+                    local tweenInfo = TweenInfo.new(2, Enum.EasingStyle.Bounce, Enum.EasingDirection.Out)
+                    local goal = {Position = fruitPart.Position - Vector3.new(0, 43, 0)}
+                    
+                    TweenService:Create(fruitPart, tweenInfo, goal):Play()
+                    
+                    task.delay(30, function()
+                        if fruitPart and fruitPart.Parent then
+                            fruitPart:Destroy()
+                        end
+                    end)
+                end)
+                task.wait(0.12)
+            end
+
+            lbl.Text = "✔ Đã mưa xong 10 trái 2026!"
+            task.wait(2)
+            lbl.Text = "🌧️ Mưa 10 Trái Ác Quỷ Mới (Icon 2026 Xịn)"
+        end)
+    end, nil, true)
+
     AddElement(SettingsHolder, "── TÍNH NĂNG NHÂN VẬT ──", "section", nil, nil, true)
     
     AddElement(SettingsHolder, "Đi Xuyên Tường (Noclip)", "toggle", function(v)
@@ -942,6 +1009,7 @@ local function LoadKeySystem()
     KStroke.Thickness = 2
     KStroke.Parent = KeyFrame
 
+    Line1 = Instance.new("Frame") -- Tránh xung đột biến
     local TopBarKey = Instance.new("Frame")
     TopBarKey.Parent = KeyFrame
     TopBarKey.BackgroundColor3 = Color3.fromRGB(4, 12, 26)
