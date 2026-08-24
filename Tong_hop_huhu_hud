@@ -1,5 +1,5 @@
 --[[
-    HUHU HUB V2 - BLUE THEME ULTIMATE EDITION (SMOOTH AUTO CHEST FIXED)
+    HUHU HUB V2 - BLUE THEME ULTIMATE EDITION (SMOOTH AUTO CHEST FIXED + FAKE FRUIT INVENTORY)
 ]]--
 
 local UserInputService = game:GetService("UserInputService")
@@ -279,14 +279,14 @@ local function LoadMainMenu()
         PageFrame.Parent = Container
         PageFrame.BackgroundTransparency = 1
         PageFrame.Size = UDim2.new(1, 0, 1, 0)
-        PageFrame.CanvasSize = UDim2.new(0, 0, 0, 1500)
+        PageFrame.CanvasSize = UDim2.new(0, 0, 0, 1800)
         PageFrame.ScrollBarThickness = 3
         PageFrame.Visible = false
 
         local ContentListHolder = Instance.new("Frame")
         ContentListHolder.Parent = PageFrame
         ContentListHolder.BackgroundTransparency = 1
-        ContentListHolder.Size = UDim2.new(1, 0, 0, 1450)
+        ContentListHolder.Size = UDim2.new(1, 0, 0, 1750)
 
         local HolderLayout = Instance.new("UIListLayout")
         HolderLayout.Parent = ContentListHolder
@@ -745,70 +745,206 @@ local function LoadMainMenu()
         if LogoGui then LogoGui:Destroy() end
     end, nil, true)
     
-    AddElement(SettingsHolder, "── TÍNH NĂNG ĐẶC BIỆT 2026 ──", "section", nil, nil, true)
+    -- TÍNH NĂNG KHO TRÁI FAKE NHẶT & ĂN ĐƯỢC
+    AddElement(SettingsHolder, "── KHO TRÁI ÁC QUỶ FAKE (NHẶT & ĂN ĐƯỢC) ──", "section", nil, nil, true)
 
-    AddElement(SettingsHolder, "🌧️ Mưa 10 Trái Ác Quỷ Mới (Icon 2026 Xịn)", "button", function(lbl)
+    local FakeInventory = {}
+
+    AddElement(SettingsHolder, "🌧️ Mưa 10 Trái Fake Có Thể Nhặt & Ăn", "button", function(lbl)
         pcall(function()
-            lbl.Text = "⏳ Đang tạo mưa 10 trái..."
+            lbl.Text = "⏳ Đang rải 10 trái fake chuẩn..."
             
             local char = Player.Character
             if not char or not char:FindFirstChild("HumanoidRootPart") then 
                 lbl.Text = "❌ Không thấy nhân vật!"
                 task.wait(2)
-                lbl.Text = "🌧️ Mưa 10 Trái Ác Quỷ Mới (Icon 2026 Xịn)"
+                lbl.Text = "🌧️ Mưa 10 Trái Fake Có Thể Nhặt & Ăn"
                 return 
             end
             
             local hrp = char.HumanoidRootPart
+            local fruitNames = {"Dough (Fake)", "Leopard (Fake)", "T-Rex (Fake)", "Mammoth (Fake)", "Kitsune (Fake)", "Dragon (Fake)"}
 
             for i = 1, 10 do
                 task.spawn(function()
                     local fruitPart = Instance.new("Part")
-                    fruitPart.Name = "RainFruit_2026_" .. i
-                    fruitPart.Size = Vector3.new(2.5, 2.5, 2.5)
+                    local chosenName = fruitNames[math.random(1, #fruitNames)]
+                    fruitPart.Name = "FakeFruit_" .. chosenName
+                    fruitPart.Shape = Enum.PartType.Ball
+                    fruitPart.Size = Vector3.new(3, 3, 3)
                     
-                    local randomX = math.random(-35, 35)
-                    local randomZ = math.random(-35, 35)
-                    fruitPart.Position = hrp.Position + Vector3.new(randomX, 45, randomZ)
+                    local randomX = math.random(-30, 30)
+                    local randomZ = math.random(-30, 30)
+                    fruitPart.Position = hrp.Position + Vector3.new(randomX, 35, randomZ)
                     
-                    fruitPart.Material = Enum.Material.Neon
+                    fruitPart.Material = Enum.Material.SmoothPlastic
                     fruitPart.Color = Color3.fromRGB(math.random(50,255), math.random(50,255), math.random(50,255))
                     fruitPart.CanCollide = true
                     fruitPart.Anchored = false
-                    
-                    -- Logo/Icon chuẩn hệ thống mới (2026)
-                    local decal = Instance.new("Decal")
-                    decal.Face = Enum.NormalId.Front
-                    decal.Texture = "rbxassetid://16062961882"
-                    decal.Parent = fruitPart
 
-                    local decal2 = decal:Clone()
-                    decal2.Face = Enum.NormalId.Back
-                    decal2.Parent = fruitPart
+                    local bgui = Instance.new("BillboardGui")
+                    bgui.Size = UDim2.new(0, 120, 0, 40)
+                    bgui.StudsOffset = Vector3.new(0, 2.5, 0)
+                    bgui.AlwaysOnTop = true
+                    bgui.Parent = fruitPart
 
-                    local decal3 = decal:Clone()
-                    decal3.Face = Enum.NormalId.Top
-                    decal3.Parent = fruitPart
+                    local nameLabel = Instance.new("TextLabel")
+                    nameLabel.Size = UDim2.new(1, 0, 1, 0)
+                    nameLabel.BackgroundTransparency = 1
+                    nameLabel.Text = "🍎 " .. chosenName
+                    nameLabel.TextColor3 = Color3.fromRGB(255, 220, 0)
+                    nameLabel.TextStrokeTransparency = 0
+                    nameLabel.Font = Enum.Font.GothamBold
+                    nameLabel.TextSize = 13
+                    nameLabel.Parent = bgui
+
+                    local prompt = Instance.new("ProximityPrompt")
+                    prompt.ObjectText = "Trái Ác Quỷ Fake"
+                    prompt.ActionText = "Nhặt"
+                    prompt.HoldDuration = 0
+                    prompt.MaxActivationDistance = 8
+                    prompt.Parent = fruitPart
 
                     fruitPart.Parent = workspace
 
-                    local tweenInfo = TweenInfo.new(2, Enum.EasingStyle.Bounce, Enum.EasingDirection.Out)
-                    local goal = {Position = fruitPart.Position - Vector3.new(0, 43, 0)}
-                    
+                    prompt.Triggered:Connect(function(playerWhoTriggered)
+                        if playerWhoTriggered == Player then
+                            table.insert(FakeInventory, chosenName)
+                            pcall(function()
+                                game:GetService("StarterGui"):SetCore("SendNotification", {
+                                    Title = "🎒 Kho Đồ Fake",
+                                    Text = "Đã nhặt thành công: " .. chosenName,
+                                    Duration = 3
+                                })
+                            end)
+                            fruitPart:Destroy()
+                        end
+                    end)
+
+                    local tweenInfo = TweenInfo.new(1.5, Enum.EasingStyle.Bounce, Enum.EasingDirection.Out)
+                    local goal = {Position = fruitPart.Position - Vector3.new(0, 33, 0)}
                     TweenService:Create(fruitPart, tweenInfo, goal):Play()
                     
-                    task.delay(30, function()
+                    task.delay(45, function()
                         if fruitPart and fruitPart.Parent then
                             fruitPart:Destroy()
                         end
                     end)
                 end)
-                task.wait(0.12)
+                task.wait(0.1)
             end
 
-            lbl.Text = "✔ Đã mưa xong 10 trái 2026!"
+            lbl.Text = "✔ Đã rải 10 trái fake có thể nhặt!"
             task.wait(2)
-            lbl.Text = "🌧️ Mưa 10 Trái Ác Quỷ Mới (Icon 2026 Xịn)"
+            lbl.Text = "🌧️ Mưa 10 Trái Fake Có Thể Nhặt & Ăn"
+        end)
+    end, nil, true)
+
+    AddElement(SettingsHolder, "📦 Mở Kho Đồ Trái Fake & Thử 'Ăn'", "button", function()
+        pcall(function()
+            local InvGui = Instance.new("ScreenGui")
+            InvGui.Name = "HuhuHub_FakeInventory"
+            ProtectGui(InvGui)
+
+            local MainInv = Instance.new("Frame")
+            MainInv.Size = UDim2.new(0, 320, 0, 350)
+            MainInv.Position = UDim2.new(0.5, -160, 0.5, -175)
+            MainInv.BackgroundColor3 = Color3.fromRGB(10, 25, 45)
+            MainInv.Parent = InvGui
+            Instance.new("UICorner", MainInv).CornerRadius = UDim.new(0, 10)
+            Instance.new("UIStroke", MainInv).Color = Color3.fromRGB(0, 150, 255)
+
+            local TitleI = Instance.new("TextLabel")
+            TitleI.Size = UDim2.new(1, 0, 0, 40)
+            TitleI.BackgroundTransparency = 1
+            TitleI.Text = "🎒 KHO TRÁI ÁC QUỶ FAKE"
+            TitleI.TextColor3 = Color3.fromRGB(100, 220, 255)
+            TitleI.Font = Enum.Font.GothamBold
+            TitleI.TextSize = 13
+            TitleI.Parent = MainInv
+
+            local CloseBtn = Instance.new("TextButton")
+            CloseBtn.Size = UDim2.new(0, 30, 0, 30)
+            CloseBtn.Position = UDim2.new(1, -35, 0, 5)
+            CloseBtn.BackgroundColor3 = Color3.fromRGB(200, 50, 50)
+            CloseBtn.Text = "X"
+            CloseBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+            CloseBtn.Font = Enum.Font.GothamBold
+            CloseBtn.Parent = MainInv
+            Instance.new("UICorner", CloseBtn).CornerRadius = UDim.new(1, 0)
+            CloseBtn.MouseButton1Click:Connect(function() InvGui:Destroy() end)
+
+            local ScrollList = Instance.new("ScrollingFrame")
+            ScrollList.Size = UDim2.new(1, -20, 1, -60)
+            ScrollList.Position = UDim2.new(0, 10, 0, 50)
+            ScrollList.BackgroundTransparency = 1
+            ScrollList.CanvasSize = UDim2.new(0, 0, 0, #FakeInventory * 50)
+            ScrollList.ScrollBarThickness = 3
+            ScrollList.Parent = MainInv
+
+            local UIList = Instance.new("UIListLayout")
+            UIList.Padding = UDim.new(0, 8)
+            UIList.Parent = ScrollList
+
+            if #FakeInventory == 0 then
+                local emptyLbl = Instance.new("TextLabel")
+                emptyLbl.Size = UDim2.new(1, 0, 1, 0)
+                emptyLbl.BackgroundTransparency = 1
+                emptyLbl.Text = "Kho trống! Hãy ra ngoài bấm 'Mưa 10 Trái' để nhặt."
+                emptyLbl.TextColor3 = Color3.fromRGB(180, 180, 180)
+                emptyLbl.Font = Enum.Font.GothamMedium
+                emptyLbl.TextSize = 12
+                emptyLbl.TextWrapped = true
+                emptyLbl.Parent = ScrollList
+            else
+                for idx, fruitName in ipairs(FakeInventory) do
+                    local itemFrame = Instance.new("Frame")
+                    itemFrame.Size = UDim2.new(1, 0, 0, 42)
+                    itemFrame.BackgroundColor3 = Color3.fromRGB(15, 35, 65)
+                    itemFrame.Parent = ScrollList
+                    Instance.new("UICorner", itemFrame).CornerRadius = UDim.new(0, 6)
+
+                    local lblName = Instance.new("TextLabel")
+                    lblName.Size = UDim2.new(0.6, 0, 1, 0)
+                    lblName.Position = UDim2.new(0, 10, 0, 0)
+                    lblName.BackgroundTransparency = 1
+                    lblName.Text = "🍎 " .. fruitName
+                    lblName.TextColor3 = Color3.fromRGB(255, 255, 255)
+                    lblName.Font = Enum.Font.GothamBold
+                    lblName.TextSize = 12
+                    lblName.TextXAlignment = Enum.TextXAlignment.Left
+                    lblName.Parent = itemFrame
+
+                    local eatBtn = Instance.new("TextButton")
+                    eatBtn.Size = UDim2.new(0, 80, 0, 28)
+                    eatBtn.Position = UDim2.new(1, -90, 0.5, -14)
+                    eatBtn.BackgroundColor3 = Color3.fromRGB(0, 170, 80)
+                    eatBtn.Text = "Ăn (Fake)"
+                    eatBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+                    eatBtn.Font = Enum.Font.GothamBold
+                    eatBtn.TextSize = 11
+                    eatBtn.Parent = itemFrame
+                    Instance.new("UICorner", eatBtn).CornerRadius = UDim.new(0, 5)
+
+                    eatBtn.MouseButton1Click:Connect(function()
+                        pcall(function()
+                            local char = Player.Character
+                            if char then
+                                for _, p in pairs(char:GetDescendants()) do
+                                    if p:IsA("BasePart") then
+                                        p.Color = Color3.fromRGB(math.random(0,255), math.random(0,255), math.random(0,255))
+                                    end
+                                end
+                            end
+                            game:GetService("StarterGui"):SetCore("SendNotification", {
+                                Title = "🌟 Đã ăn trái giả lập!",
+                                Text = "Đã ăn " .. fruitName .. " (Nhân vật đã đổi màu hiệu ứng)",
+                                Duration = 3
+                            })
+                        end)
+                    end)
+                end
+            end
         end)
     end, nil, true)
 
@@ -1009,7 +1145,6 @@ local function LoadKeySystem()
     KStroke.Thickness = 2
     KStroke.Parent = KeyFrame
 
-    Line1 = Instance.new("Frame") -- Tránh xung đột biến
     local TopBarKey = Instance.new("Frame")
     TopBarKey.Parent = KeyFrame
     TopBarKey.BackgroundColor3 = Color3.fromRGB(4, 12, 26)
