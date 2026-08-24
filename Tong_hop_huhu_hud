@@ -1,5 +1,5 @@
 --[[
-    HUHU HUB - FULL CODE (Renamed 'Fram' tab to 'Blox Fruit')
+    HUHU HUB - FULL CODE (Fixed Direct Execution for All Hubs)
 ]]--
 
 local UserInputService = game:GetService("UserInputService")
@@ -125,7 +125,7 @@ local function LoadMainMenu()
     TitleLbl.Position = UDim2.new(0, 15, 0, 0)
     TitleLbl.Size = UDim2.new(0, 180, 1, 0)
     TitleLbl.Font = Enum.Font.FredokaOne
-    TitleLbl.Text = "TẠO MENU"
+    TitleLbl.Text = "HUHU HUB V2"
     TitleLbl.TextColor3 = Color3.fromRGB(130, 210, 255)
     TitleLbl.TextSize = 15
     TitleLbl.TextXAlignment = Enum.TextXAlignment.Left
@@ -206,14 +206,14 @@ local function LoadMainMenu()
         PageFrame.Parent = Container
         PageFrame.BackgroundTransparency = 1
         PageFrame.Size = UDim2.new(1, 0, 1, 0)
-        PageFrame.CanvasSize = UDim2.new(0, 0, 0, 800)
+        PageFrame.CanvasSize = UDim2.new(0, 0, 0, 950)
         PageFrame.ScrollBarThickness = 3
         PageFrame.Visible = false
 
         local ContentListHolder = Instance.new("Frame")
         ContentListHolder.Parent = PageFrame
         ContentListHolder.BackgroundTransparency = 1
-        ContentListHolder.Size = UDim2.new(1, 0, 0, 750)
+        ContentListHolder.Size = UDim2.new(1, 0, 0, 900)
 
         local HolderLayout = Instance.new("UIListLayout")
         HolderLayout.Parent = ContentListHolder
@@ -387,10 +387,16 @@ local function LoadMainMenu()
     AddElement(SupportHolder, "👤 Tên: " .. Player.Name, "button", function() end)
     AddElement(SupportHolder, "⚡ Trạng thái: Hoạt động tốt", "button", function() end)
 
-    -- TAB 2: Blox Fruit (Đã đổi tên từ Fram)
+    -- TAB 2: Blox Fruit (Tất cả đều chạy trực tiếp)
     local BloxFruitHolder = CreateTab("Blox Fruit")
-    AddElement(BloxFruitHolder, "── Blox Fruit ──", "section")
+    AddElement(BloxFruitHolder, "── MENU & FARM HUB CHÍNH ──", "section")
     
+    AddElement(BloxFruitHolder, "⚡ BẬT REDZ EMERALD", "button", function()
+        pcall(function()
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/bloxfruitsnokey/Redz/refs/heads/main/Emerald/script.luau"))()
+        end)
+    end, 'loadstring(game:HttpGet("https://raw.githubusercontent.com/bloxfruitsnokey/Redz/refs/heads/main/Emerald/script.luau"))()')
+
     AddElement(BloxFruitHolder, "🚀 BẬT QUANTUM HUB", "button", function()
         pcall(function()
             loadstring(game:HttpGet("https://raw.githubusercontent.com/flazhy/QuantumOnyx/refs/heads/main/QuantumOnyx.lua"))()
@@ -403,24 +409,77 @@ local function LoadMainMenu()
         end)
     end, 'loadstring(game:HttpGet("https://raw.githubusercontent.com/huy384/redzHub/refs/heads/main/redzHub.lua"))()')
 
-    AddElement(BloxFruitHolder, "💎 BẬT EMERALD HUB", "button", function()
-        pcall(function()
-            loadstring(game:HttpGet("https://raw.githubusercontent.com/bloxfruitsnokey/Redz/refs/heads/main/Emerald/script.luau"))()
-        end)
-    end, 'loadstring(game:HttpGet("https://raw.githubusercontent.com/bloxfruitsnokey/Redz/refs/heads/main/Emerald/script.luau"))()')
+    -- MỤC KAITUN
+    AddElement(BloxFruitHolder, "── SCRIPT KAITUN (CÓ SẴN CONFIG) ──", "section")
 
-    AddElement(BloxFruitHolder, "── KAITUN SCRIPT ──", "section")
-    AddElement(BloxFruitHolder, "⚡ BẬT KAITUN HUB", "button", function()
+    AddElement(BloxFruitHolder, "🤖 BẬT KAITUN (RealKid Hub)", "button", function()
         pcall(function()
-            loadstring(game:HttpGet("https://raw.githubusercontent.com/kadit9999/Blox-Fruits-/refs/heads/main/kaitun.lua"))()
+            getgenv().Configs = {
+                ["Quest"] = {
+                    ["Evo Race V1"] = true;
+                    ["Evo Race V2"] = true;
+                    ["RGB Haki"] = true;
+                    ["Pull Lerver"] = true;
+                };
+                Sword = {
+                    "Dual-Headed Blade";
+                    "Smoke Admiral";
+                    "Wardens Sword";
+                    "Cutlass";
+                    "Katana";
+                    "Dual Katana";
+                    "Triple Katana";
+                    "Iron Mace";
+                    "Saber";
+                    "Pole (1st Form)";
+                    "Gravity Blade";
+                    "Longsword";
+                    "Rengoku";
+                    "Midnight Blade";
+                    "Soul Cane";
+                    "Bisento";
+                    "Yama";
+                    "Tushita";
+                    "Cursed Dual Katana";
+                };
+                Gun = {
+                    "Skull Guitar";
+                    "Kabucha";
+                    "Venom Bow";
+                    "Musket";
+                    "Flintlock";
+                    "Refined Slingshot";
+                    "Magma Blaster";
+                    "Dual Flintlock";
+                    "Cannon";
+                    "Bizarre Revolver";
+                    "Bazooka";
+                };
+                ["Bypass TP"] = true;
+                ["Auto Active Race V4"] = true;
+            }
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/realkidhub/realkid/refs/heads/main/kaitun.lua"))()
         end)
-    end, 'loadstring(game:HttpGet("https://raw.githubusercontent.com/kadit9999/Blox-Fruits-/refs/heads/main/kaitun.lua"))()')
+    end, 'getgenv().Configs = {["Quest"] = {["Evo Race V1"] = true, ["Evo Race V2"] = true, ["RGB Haki"] = true, ["Pull Lerver"] = true}, Sword = {"Dual-Headed Blade", "Smoke Admiral", "Wardens Sword", "Cutlass", "Katana", "Dual Katana", "Triple Katana", "Iron Mace", "Saber", "Pole (1st Form)", "Gravity Blade", "Longsword", "Rengoku", "Midnight Blade", "Soul Cane", "Bisento", "Yama", "Tushita", "Cursed Dual Katana"}, Gun = {"Skull Guitar", "Kabucha", "Venom Bow", "Musket", "Flintlock", "Refined Slingshot", "Magma Blaster", "Dual Flintlock", "Cannon", "Bizarre Revolver", "Bazooka"}, ["Bypass TP"] = true, ["Auto Active Race V4"] = true} loadstring(game:HttpGet("https://raw.githubusercontent.com/realkidhub/realkid/refs/heads/main/kaitun.lua"))()')
+
+    AddElement(BloxFruitHolder, "── SCRIPT KHÁC ──", "section")
+
+    AddElement(BloxFruitHolder, "⚡ BẬT SPEED HUB X", "button", function()
+        pcall(function()
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/AhmadV99/Speed-Hub-X/main/Speed%20Hub%20X.lua"))()
+        end)
+    end, 'loadstring(game:HttpGet("https://raw.githubusercontent.com/AhmadV99/Speed-Hub-X/main/Speed%20Hub%20X.lua"))()')
+
+    AddElement(BloxFruitHolder, "📦 OMGSHIT MAIN LOADER", "button", function()
+        pcall(function()
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/Omgshit/Scripts/main/MainLoader.lua"))()
+        end)
+    end, 'loadstring(game:HttpGet("https://raw.githubusercontent.com/Omgshit/Scripts/main/MainLoader.lua"))()')
 
     -- TAB 3: Evomon
     local EvomonHolder = CreateTab("Evomon")
     AddElement(EvomonHolder, "── PHẦN FARM ──", "section")
     AddElement(EvomonHolder, "Auto Train Evomon (Cày cấp)", "toggle", function(v) print("Evomon Train:", v) end)
-    AddElement(EvomonHolder, "Auto Fight Wild Evomon", "toggle", function(v) print("Evomon Fight:", v) end)
 
     -- TAB 4: 99 Đêm
     local Night99Holder = CreateTab("99 Đêm")
@@ -597,16 +656,11 @@ local function LoadMainMenu()
         end
     end, nil, true)
 
-    AddElement(SettingsHolder, "Fix Lag / Xóa Map", "button", function()
+    AddElement(SettingsHolder, "Fix Lag V3 (Graihub)", "button", function()
         pcall(function()
-            for _, v in pairs(workspace:GetDescendants()) do
-                if v:IsA("Part") or v:IsA("MeshPart") then
-                    v.Material = Enum.Material.SmoothPlastic
-                    v.Reflectance = 0
-                end
-            end
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/Graihub/graihubfixlagv3/refs/heads/main/fixlagv3"))()
         end)
-    end, nil, true)
+    end, 'loadstring(game:HttpGet("https://raw.githubusercontent.com/Graihub/graihubfixlagv3/refs/heads/main/fixlagv3"))()', true)
 end
 
 local function LoadKeySystem()
@@ -641,15 +695,35 @@ local function LoadKeySystem()
     TBKCorner.CornerRadius = UDim.new(0, 12)
     TBKCorner.Parent = TopBarKey
 
+    local KeyLogo = Instance.new("TextButton")
+    KeyLogo.Parent = TopBarKey
+    KeyLogo.BackgroundColor3 = Color3.fromRGB(12, 18, 30)
+    KeyLogo.Position = UDim2.new(0, 10, 0.5, -16)
+    KeyLogo.Size = UDim2.new(0, 32, 0, 32)
+    KeyLogo.Font = Enum.Font.FredokaOne
+    KeyLogo.Text = "HU"
+    KeyLogo.TextColor3 = Color3.fromRGB(130, 210, 255)
+    KeyLogo.TextSize = 10
+    KeyLogo.Active = false
+
+    local KLCorner = Instance.new("UICorner")
+    KLCorner.CornerRadius = UDim.new(1, 0)
+    KLCorner.Parent = KeyLogo
+
+    local KLStroke = Instance.new("UIStroke")
+    KLStroke.Color = Color3.fromRGB(30, 144, 255)
+    KLStroke.Thickness = 1.5
+    KLStroke.Parent = KeyLogo
+
     local Title = Instance.new("TextLabel")
     Title.Parent = TopBarKey
     Title.BackgroundTransparency = 1
-    Title.Position = UDim2.new(0, 15, 0, 0)
-    Title.Size = UDim2.new(0, 300, 1, 0)
+    Title.Position = UDim2.new(0, 50, 0, 0)
+    Title.Size = UDim2.new(0, 350, 1, 0)
     Title.Font = Enum.Font.FredokaOne
     Title.Text = "HUHU HUB | Get Key"
     Title.TextColor3 = Color3.fromRGB(120, 210, 255)
-    Title.TextSize = 16
+    Title.TextSize = 15
     Title.TextXAlignment = Enum.TextXAlignment.Left
 
     local Box = Instance.new("TextBox")
