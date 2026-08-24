@@ -745,12 +745,12 @@ local function LoadMainMenu()
         if LogoGui then LogoGui:Destroy() end
     end, nil, true)
     
-    -- TÍNH NĂNG KHO TRÁI FAKE NHẶT & ĂN ĐƯỢC
-    AddElement(SettingsHolder, "── KHO TRÁI ÁC QUỶ FAKE (NHẶT & ĂN ĐƯỢC) ──", "section", nil, nil, true)
+    -- KHO TRÁI ÁC QUỶ FAKE (CHẠM LÀ LỤM & ĂN ĐƯỢC)
+    AddElement(SettingsHolder, "── KHO TRÁI ÁC QUỶ FAKE (CHẠM LÀ LỤM & ĂN) ──", "section", nil, nil, true)
 
     local FakeInventory = {}
 
-    AddElement(SettingsHolder, "🌧️ Mưa 10 Trái Fake Có Thể Nhặt & Ăn", "button", function(lbl)
+    AddElement(SettingsHolder, "🌧️ Mưa 10 Trái Fake (Chạm Là Lụm Ngay)", "button", function(lbl)
         pcall(function()
             lbl.Text = "⏳ Đang rải 10 trái fake chuẩn..."
             
@@ -758,7 +758,7 @@ local function LoadMainMenu()
             if not char or not char:FindFirstChild("HumanoidRootPart") then 
                 lbl.Text = "❌ Không thấy nhân vật!"
                 task.wait(2)
-                lbl.Text = "🌧️ Mưa 10 Trái Fake Có Thể Nhặt & Ăn"
+                lbl.Text = "🌧️ Mưa 10 Trái Fake (Chạm Là Lụm Ngay)"
                 return 
             end
             
@@ -771,19 +771,19 @@ local function LoadMainMenu()
                     local chosenName = fruitNames[math.random(1, #fruitNames)]
                     fruitPart.Name = "FakeFruit_" .. chosenName
                     fruitPart.Shape = Enum.PartType.Ball
-                    fruitPart.Size = Vector3.new(3, 3, 3)
+                    fruitPart.Size = Vector3.new(3.5, 3.5, 3.5)
                     
-                    local randomX = math.random(-30, 30)
-                    local randomZ = math.random(-30, 30)
-                    fruitPart.Position = hrp.Position + Vector3.new(randomX, 35, randomZ)
+                    local randomX = math.random(-25, 25)
+                    local randomZ = math.random(-25, 25)
+                    fruitPart.Position = hrp.Position + Vector3.new(randomX, 30, randomZ)
                     
-                    fruitPart.Material = Enum.Material.SmoothPlastic
-                    fruitPart.Color = Color3.fromRGB(math.random(50,255), math.random(50,255), math.random(50,255))
-                    fruitPart.CanCollide = true
+                    fruitPart.Material = Enum.Material.Neon
+                    fruitPart.Color = Color3.fromRGB(math.random(100,255), math.random(100,255), math.random(100,255))
+                    fruitPart.CanCollide = false
                     fruitPart.Anchored = false
 
                     local bgui = Instance.new("BillboardGui")
-                    bgui.Size = UDim2.new(0, 120, 0, 40)
+                    bgui.Size = UDim2.new(0, 140, 0, 45)
                     bgui.StudsOffset = Vector3.new(0, 2.5, 0)
                     bgui.AlwaysOnTop = true
                     bgui.Parent = fruitPart
@@ -792,40 +792,39 @@ local function LoadMainMenu()
                     nameLabel.Size = UDim2.new(1, 0, 1, 0)
                     nameLabel.BackgroundTransparency = 1
                     nameLabel.Text = "🍎 " .. chosenName
-                    nameLabel.TextColor3 = Color3.fromRGB(255, 220, 0)
+                    nameLabel.TextColor3 = Color3.fromRGB(255, 255, 0)
                     nameLabel.TextStrokeTransparency = 0
                     nameLabel.Font = Enum.Font.GothamBold
-                    nameLabel.TextSize = 13
+                    nameLabel.TextSize = 14
                     nameLabel.Parent = bgui
-
-                    local prompt = Instance.new("ProximityPrompt")
-                    prompt.ObjectText = "Trái Ác Quỷ Fake"
-                    prompt.ActionText = "Nhặt"
-                    prompt.HoldDuration = 0
-                    prompt.MaxActivationDistance = 8
-                    prompt.Parent = fruitPart
 
                     fruitPart.Parent = workspace
 
-                    prompt.Triggered:Connect(function(playerWhoTriggered)
-                        if playerWhoTriggered == Player then
+                    local connection
+                    connection = fruitPart.Touched:Connect(function(hit)
+                        local hitChar = hit.Parent
+                        if hitChar == Player.Character then
+                            connection:Disconnect()
                             table.insert(FakeInventory, chosenName)
+                            
                             pcall(function()
                                 game:GetService("StarterGui"):SetCore("SendNotification", {
-                                    Title = "🎒 Kho Đồ Fake",
-                                    Text = "Đã nhặt thành công: " .. chosenName,
+                                    Title = "🎒 Lụm Thành Công!",
+                                    Text = "Đã lưu vào kho: " .. chosenName,
                                     Duration = 3
                                 })
                             end)
+                            
                             fruitPart:Destroy()
                         end
                     end)
 
-                    local tweenInfo = TweenInfo.new(1.5, Enum.EasingStyle.Bounce, Enum.EasingDirection.Out)
-                    local goal = {Position = fruitPart.Position - Vector3.new(0, 33, 0)}
+                    local tweenInfo = TweenInfo.new(1.2, Enum.EasingStyle.Bounce, Enum.EasingDirection.Out)
+                    local goal = {Position = fruitPart.Position - Vector3.new(0, 28, 0)}
                     TweenService:Create(fruitPart, tweenInfo, goal):Play()
                     
-                    task.delay(45, function()
+                    task.delay(40, function()
+                        if connection then connection:Disconnect() end
                         if fruitPart and fruitPart.Parent then
                             fruitPart:Destroy()
                         end
@@ -834,9 +833,9 @@ local function LoadMainMenu()
                 task.wait(0.1)
             end
 
-            lbl.Text = "✔ Đã rải 10 trái fake có thể nhặt!"
+            lbl.Text = "✔ Đã rải xong, lại gần chạm để lụm!"
             task.wait(2)
-            lbl.Text = "🌧️ Mưa 10 Trái Fake Có Thể Nhặt & Ăn"
+            lbl.Text = "🌧️ Mưa 10 Trái Fake (Chạm Là Lụm Ngay)"
         end)
     end, nil, true)
 
@@ -890,7 +889,7 @@ local function LoadMainMenu()
                 local emptyLbl = Instance.new("TextLabel")
                 emptyLbl.Size = UDim2.new(1, 0, 1, 0)
                 emptyLbl.BackgroundTransparency = 1
-                emptyLbl.Text = "Kho trống! Hãy ra ngoài bấm 'Mưa 10 Trái' để nhặt."
+                emptyLbl.Text = "Kho trống! Hãy ra ngoài bấm 'Mưa 10 Trái' rồi chạy lại chạm vào để lụm."
                 emptyLbl.TextColor3 = Color3.fromRGB(180, 180, 180)
                 emptyLbl.Font = Enum.Font.GothamMedium
                 emptyLbl.TextSize = 12
@@ -938,7 +937,7 @@ local function LoadMainMenu()
                             end
                             game:GetService("StarterGui"):SetCore("SendNotification", {
                                 Title = "🌟 Đã ăn trái giả lập!",
-                                Text = "Đã ăn " .. fruitName .. " (Nhân vật đã đổi màu hiệu ứng)",
+                                Text = "Đã ăn thành công " .. fruitName .. " (Nhân vật đã đổi màu)",
                                 Duration = 3
                             })
                         end)
