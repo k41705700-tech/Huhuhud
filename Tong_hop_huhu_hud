@@ -690,6 +690,16 @@ local function LoadMainMenu()
         end)
     end, 'loadstring(game:HttpGet("https://raw.githubusercontent.com/Teddyseetink/Haidepzai/refs/heads/main/TEDDYHUB-FREEMIUM"))()')
 
+    AddElement(BloxFruitHolder, "🌙 BẬT NIGHT HUB", "button", function()
+        pcall(function()
+            local Settings = {
+                JoinTeam = "Pirates";
+                Translator = true;
+            }
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/Dev-NightMystic/Bloxfruits/refs/heads/main/Script.lua"))()
+        end)
+    end, 'local Settings = { JoinTeam = "Pirates", Translator = true } loadstring(game:HttpGet("https://raw.githubusercontent.com/Dev-NightMystic/Bloxfruits/refs/heads/main/Script.lua"))()')
+
     AddElement(BloxFruitHolder, "🔷 BẬT BLUE-X HUB (BLOX FRUITS)", "button", function()
         pcall(function()
             loadstring(game:HttpGet("https://raw.githubusercontent.com/Dev-BlueX/BlueX-Hub/main/BloxFruits.lua"))()
