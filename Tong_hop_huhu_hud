@@ -1,5 +1,5 @@
 --[[
-    HUHU HUB V2 - BLUE THEME ULTIMATE EDITION (ANTI-OVERLAP FIXED + SMOOTH AUTO CHEST + FAKE FRUIT)
+    HUHU HUB V2 x VOIDX HUB - ULTIMATE MERGED EDITION (ANTI-OVERLAP + SMOOTH AUTO CHEST + KAITUN TAB)
 ]]--
 
 repeat task.wait() until game:IsLoaded() and game:GetService("Players") and game.Players.LocalPlayer and game.Players.LocalPlayer:FindFirstChild("PlayerGui")
@@ -302,14 +302,14 @@ local function LoadMainMenu()
         PageFrame.Parent = Container
         PageFrame.BackgroundTransparency = 1
         PageFrame.Size = UDim2.new(1, 0, 1, 0)
-        PageFrame.CanvasSize = UDim2.new(0, 0, 0, 1800)
+        PageFrame.CanvasSize = UDim2.new(0, 0, 0, 2400)
         PageFrame.ScrollBarThickness = 3
         PageFrame.Visible = false
 
         local ContentListHolder = Instance.new("Frame")
         ContentListHolder.Parent = PageFrame
         ContentListHolder.BackgroundTransparency = 1
-        ContentListHolder.Size = UDim2.new(1, 0, 0, 1750)
+        ContentListHolder.Size = UDim2.new(1, 0, 0, 2350)
 
         local HolderLayout = Instance.new("UIListLayout")
         HolderLayout.Parent = ContentListHolder
@@ -658,126 +658,206 @@ local function LoadMainMenu()
         end)
     end)
 
-    -- TAB 2: Blox Fruit
+    -- TAB 2: Blox Fruit (Farm Hubs)
     local BloxFruitHolder = CreateTab("Blox Fruit")
     AddElement(BloxFruitHolder, "── MENU & FARM HUB CHÍNH ──", "section")
     
-    AddElement(BloxFruitHolder, "💰 Auto Lụm Rương (Bay Lướt Mượt)", "toggle", function(v)
-        ToggleAutoChest(v)
-    end)
-
-    AddElement(BloxFruitHolder, "⚡ BẬT REDZ EMERALD", "button", function()
-        pcall(function()
-            loadstring(game:HttpGet("https://raw.githubusercontent.com/bloxfruitsnokey/Redz/refs/heads/main/Emerald/script.luau"))()
-        end)
-    end, 'loadstring(game:HttpGet("https://raw.githubusercontent.com/bloxfruitsnokey/Redz/refs/heads/main/Emerald/script.luau"))()')
-
-    AddElement(BloxFruitHolder, "🚀 BẬT QUANTUM HUB", "button", function()
-        pcall(function()
-            loadstring(game:HttpGet("https://raw.githubusercontent.com/flazhy/QuantumOnyx/refs/heads/main/QuantumOnyx.lua"))()
-        end)
+    AddElement(BloxFruitHolder, "⚡ BẬT QUANTUM ONYX", "button", function()
+        pcall(function() loadstring(game:HttpGet("https://raw.githubusercontent.com/flazhy/QuantumOnyx/refs/heads/main/QuantumOnyx.lua"))() end)
     end, 'loadstring(game:HttpGet("https://raw.githubusercontent.com/flazhy/QuantumOnyx/refs/heads/main/QuantumOnyx.lua"))()')
 
-    AddElement(BloxFruitHolder, "🔥 BẬT REDZ HUB", "button", function()
-        pcall(function()
-            loadstring(game:HttpGet("https://raw.githubusercontent.com/huy384/redzHub/refs/heads/main/redzHub.lua"))()
-        end)
-    end, 'loadstring(game:HttpGet("https://raw.githubusercontent.com/huy384/redzHub/refs/heads/main/redzHub.lua"))()')
-
-    AddElement(BloxFruitHolder, "🧸 BẬT TEDDY HUB", "button", function()
-        pcall(function()
-            loadstring(game:HttpGet("https://raw.githubusercontent.com/Teddyseetink/Haidepzai/refs/heads/main/TEDDYHUB-FREEMIUM"))()
-        end)
-    end, 'loadstring(game:HttpGet("https://raw.githubusercontent.com/Teddyseetink/Haidepzai/refs/heads/main/TEDDYHUB-FREEMIUM"))()')
-
-    -- ĐÃ THAY LINK NIGHT HUB MỚI Ở ĐÂY
-    AddElement(BloxFruitHolder, "🌙 BẬT NIGHT HUB", "button", function()
-        pcall(function()
-            local Settings = {
-                JoinTeam = "Pirates";
-                Translator = true;
-            }
-            loadstring(game:HttpGet("https://raw.githubusercontent.com/Dev-NightMystic/Bloxfruits/refs/heads/main/Script.lua"))()
-        end)
-    end, 'local Settings = { JoinTeam = "Pirates", Translator = true } loadstring(game:HttpGet("https://raw.githubusercontent.com/Dev-NightMystic/Bloxfruits/refs/heads/main/Script.lua"))()')
-
     AddElement(BloxFruitHolder, "🔷 BẬT BLUE-X HUB (BLOX FRUITS)", "button", function()
-        pcall(function()
-            loadstring(game:HttpGet("https://raw.githubusercontent.com/Dev-BlueX/BlueX-Hub/main/BloxFruits.lua"))()
-        end)
+        pcall(function() loadstring(game:HttpGet("https://raw.githubusercontent.com/Dev-BlueX/BlueX-Hub/main/BloxFruits.lua"))() end)
     end, 'loadstring(game:HttpGet("https://raw.githubusercontent.com/Dev-BlueX/BlueX-Hub/main/BloxFruits.lua"))()')
 
-    AddElement(BloxFruitHolder, "🪐 BẬT GRAVITY HUB", "button", function()
-        pcall(function()
-            loadstring(game:HttpGet("https://raw.githubusercontent.com/GravityHub/BloxFruit/refs/heads/main/Main.lua"))()
+    AddElement(BloxFruitHolder, "🌙 BẬT NIGHT HUB (BETA)", "button", function()
+        pcall(function() loadstring(game:HttpGet("https://raw.githubusercontent.com/WhiteX1208/Scripts/refs/heads/main/BF-Beta.lua"))() end)
+    end, 'loadstring(game:HttpGet("https://raw.githubusercontent.com/WhiteX1208/Scripts/refs/heads/main/BF-Beta.lua"))()')
+
+    AddElement(BloxFruitHolder, "🌸 BẬT HINISHI HUB", "button", function()
+        pcall(function() 
+            getgenv().team = "Marines"; 
+            _G.Translate = "Vietnamese"; 
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/Dev-Hinishi/Hinishi-Hub/refs/heads/main/Freemium.lua"))() 
         end)
-    end, 'loadstring(game:HttpGet("https://raw.githubusercontent.com/GravityHub/BloxFruit/refs/heads/main/Main.lua"))()')
+    end, 'getgenv().team = "Marines"; _G.Translate = "Vietnamese"; loadstring(game:HttpGet("https://raw.githubusercontent.com/Dev-Hinishi/Hinishi-Hub/refs/heads/main/Freemium.lua"))()')
 
-    AddElement(BloxFruitHolder, "── SCRIPT KAITUN (CÓ SẴN CONFIG) ──", "section")
+    AddElement(BloxFruitHolder, "🛡️ BẬT RONIX HUB (CÓ KEY)", "button", function()
+        pcall(function() loadstring(game:HttpGet("https://api.luarmor.net/files/v3/loaders/fda9babd071d6b536a745774b6bc681c.lua"))() end)
+    end, 'loadstring(game:HttpGet("https://api.luarmor.net/files/v3/loaders/fda9babd071d6b536a745774b6bc681c.lua"))()')
 
-    AddElement(BloxFruitHolder, "🤖 BẬT KAITUN (RealKid Hub)", "button", function()
+    AddElement(BloxFruitHolder, "🚀 BẬT RISE HUB", "button", function()
+        pcall(function() 
+            getgenv().Team = "Marines"; 
+            loadstring(game:HttpGet('https://raw.githubusercontent.com/asher-realrise/project/refs/heads/main/loadder.lua'))() 
+        end)
+    end, 'getgenv().Team = "Marines"; loadstring(game:HttpGet(\'https://raw.githubusercontent.com/asher-realrise/project/refs/heads/main/loadder.lua\'))()')
+
+    AddElement(BloxFruitHolder, "⚡ BẬT ZEE HUB", "button", function()
+        pcall(function() loadstring(game:HttpGet("https://zuwz.me/Ls-Zee-Hub"))() end)
+    end, 'loadstring(game:HttpGet("https://zuwz.me/Ls-Zee-Hub"))()')
+
+    AddElement(BloxFruitHolder, "🥓 BẬT BACON HUB", "button", function()
+        pcall(function() loadstring(game:HttpGet("https://raw.githubusercontent.com/vinh129150/hack/refs/heads/main/Bloxfruits.lua"))() end)
+    end, 'loadstring(game:HttpGet("https://raw.githubusercontent.com/vinh129150/hack/refs/heads/main/Bloxfruits.lua"))()')
+
+    AddElement(BloxFruitHolder, "🪐 BẬT GRAVITY HUB", "button", function()
+        pcall(function() loadstring(game:HttpGet("https://raw.githubusercontent.com/Dev-GravityHub/BloxFruit/refs/heads/main/Main.lua"))() end)
+    end, 'loadstring(game:HttpGet("https://raw.githubusercontent.com/Dev-GravityHub/BloxFruit/refs/heads/main/Main.lua"))()')
+
+    AddElement(BloxFruitHolder, "🍒 BẬT RUBU HUB", "button", function()
+        pcall(function() loadstring(game:HttpGet("https://raw.githubusercontent.com/Bubu2k/Rubutv/refs/heads/main/Rubu-obfuscated%202.lua"))() end)
+    end, 'loadstring(game:HttpGet("https://raw.githubusercontent.com/Bubu2k/Rubutv/refs/heads/main/Rubu-obfuscated%202.lua"))()')
+
+    AddElement(BloxFruitHolder, "🍫 BẬT COKKA HUB (CÓ KEY)", "button", function()
+        pcall(function() loadstring(game:HttpGet("https://raw.githubusercontent.com/UserDevEthical/Loadstring/main/CokkaHub.lua"))() end)
+    end, 'loadstring(game:HttpGet("https://raw.githubusercontent.com/UserDevEthical/Loadstring/main/CokkaHub.lua"))()')
+
+    AddElement(BloxFruitHolder, "🔥 BẬT REDZ HUB REMAKE BY OMG (CÓ KEY)", "button", function()
+        pcall(function() loadstring(game:HttpGet("https://api.luarmor.net/files/v3/loaders/20f318386e3fbf069ee3fa797cfc9f34.lua"))() end)
+    end, 'loadstring(game:HttpGet("https://api.luarmor.net/files/v3/loaders/20f318386e3fbf069ee3fa797cfc9f34.lua"))()')
+
+    AddElement(BloxFruitHolder, "🦅 BẬT HIRU HUB", "button", function()
+        pcall(function() repeat wait() until game:IsLoaded() and game.Players.LocalPlayer; loadstring(game:HttpGet("https://luacrack.site/raw.php/HiruHub/raw/Loader/HiruHubFree.lua"))() end)
+    end, 'loadstring(game:HttpGet("https://luacrack.site/raw.php/HiruHub/raw/Loader/HiruHubFree.lua"))()')
+
+    AddElement(BloxFruitHolder, "👑 BẬT KING RUA HUB", "button", function()
+        pcall(function() repeat task.wait() until game:IsLoaded() and game.Players.LocalPlayer; loadstring(game:HttpGet("https://raw.githubusercontent.com/shinichi-dz/phucshinyeuem/refs/heads/main/KingRuaHub.lua"))() end)
+    end, 'loadstring(game:HttpGet("https://raw.githubusercontent.com/shinichi-dz/phucshinyeuem/refs/heads/main/KingRuaHub.lua"))()')
+
+    AddElement(BloxFruitHolder, "⚡ BẬT NHT HUB", "button", function()
+        pcall(function() repeat wait() until game:IsLoaded() and game.Players.LocalPlayer; getgenv().Team = "Pirates"; loadstring(game:HttpGet("https://raw.githubusercontent.com/trongdeptraihucscript/Main/refs/heads/main/Hoangtrongdepzai.lua"))() end)
+    end, 'getgenv().Team = "Pirates"; loadstring(game:HttpGet("https://raw.githubusercontent.com/trongdeptraihucscript/Main/refs/heads/main/Hoangtrongdepzai.lua"))()')
+
+    AddElement(BloxFruitHolder, "🐱 BẬT MEOXHUB", "button", function()
+        pcall(function() loadstring(game:HttpGet("https://raw.githubusercontent.com/VanHoangIOS/MeoXHub/refs/heads/main/Main.lua"))() end)
+    end, 'loadstring(game:HttpGet("https://raw.githubusercontent.com/VanHoangIOS/MeoXHub/refs/heads/main/Main.lua"))()')
+
+    AddElement(BloxFruitHolder, "🐻 BẬT VXEZEHUB", "button", function()
+        pcall(function() loadstring(game:HttpGet("https://raw.githubusercontent.com/Dex-Bear/Vxezehub/refs/heads/main/BF-Main.lua"))() end)
+    end, 'loadstring(game:HttpGet("https://raw.githubusercontent.com/Dex-Bear/Vxezehub/refs/heads/main/BF-Main.lua"))()')
+
+    AddElement(BloxFruitHolder, "🌲 BẬT HNTL_HUB", "button", function()
+        pcall(function() loadstring(game:HttpGet("https://raw.githubusercontent.com/q8ta0e/source/main/HNTL_Hub_BF.lua"))() end)
+    end, 'loadstring(game:HttpGet("https://raw.githubusercontent.com/q8ta0e/source/main/HNTL_Hub_BF.lua"))()')
+
+    -- TAB 3: Kaitun Hub (Chuyên dụng cho bản cày thuê tự động)
+    local KaitunHolder = CreateTab("Kaitun Hub")
+    AddElement(KaitunHolder, "── SCRIPT KAITUN CHUYÊN DỤNG ──", "section")
+
+    AddElement(KaitunHolder, "🤖 HINISHI KAITUN (FULL CONFIG)", "button", function()
+        pcall(function()
+            _G.Hinishi_Hub_Kaitun_Blox_Fruits = {
+                ["Misc"] = {["Hop If Admin Join"] = true, ["Unlock Dough Chip"] = true, ["Auto Aura RGB"] = true, ["Auto Pull Lever"] = true, ["Big Hitbox"] = true},
+                ["Upgrade Race"] = {["Race"] = {"Human", "Fishman", "Skypiea", "Mink"}, ["Upgrade Race V3"] = true, ["Lock Race Select"] = true},
+                ["Fighting Styles"] = {["Melee V2"] = true, ["Godhuman"] = true},
+                ["Swords"] = {["True Triple Katana"] = true, ["Cursed Dual Katana"] = true, ["Shark Anchor"] = true, ["Saber"] = true, ["Midnight Blade"] = true, ["Shisui"] = true, ["Saddi"] = true, ["Wando"] = true, ["Yama"] = true, ["Koko"] = false, ["Rengoku"] = true, ["Canvander"] = true, ["Buddy Sword"] = true, ["Twin Hooks"] = true, ["Spikey Trident"] = true, ["Hallow Scryte"] = true, ["Dark Dagger"] = true, ["Tushita"] = true},
+                ["Guns"] = {["Soul Guitar"] = true, ["Kabucha"] = true, ["Acidum Rifle"] = true, ["Serpent Bow"] = true},
+                ["BloxFruits"] = {["Sub Fruits"] = {"Rocket-Rocket", "Spin-Spin"}, ["Safe Fruits"] = {["Dragon-Dragon"] = "Dragon-Dragon", ["T-Rex-T-Rex"] = "T-Rex-T-Rex", ["Kitsune-Kitsune"] = "Kitsune-Kitsune"}},
+                ["Mastery"] = {["Blox Fruit"] = true, ["Fighting Styles"] = true, ["Swords"] = true},
+                ["Settings"] = {["Tween Speed"] = 300, ["Fix Lag"] = true, ["Safe Mode"] = false}
+            }
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/Dev-Hinishi/Hinishi-Hub/refs/heads/main/Kaitun"))()
+        end)
+    end, '_G.Hinishi_Hub_Kaitun_Blox_Fruits = {...} loadstring(game:HttpGet("https://raw.githubusercontent.com/Dev-Hinishi/Hinishi-Hub/refs/heads/main/Kaitun"))()')
+
+    AddElement(KaitunHolder, "🪐 GRAVITY KAITUN", "button", function()
+        pcall(function() repeat wait() until game:IsLoaded() and game.Players.LocalPlayer; loadstring(game:HttpGet("https://raw.githubusercontent.com/Dev-GravityHub/BloxFruit/refs/heads/main/Kaitun.lua"))() end)
+    end, 'loadstring(game:HttpGet("https://raw.githubusercontent.com/Dev-GravityHub/BloxFruit/refs/heads/main/Kaitun.lua"))()')
+
+    AddElement(KaitunHolder, "🧒 REALKID KAITUN", "button", function()
         pcall(function()
             getgenv().Configs = {
-                ["Quest"] = {
-                    ["Evo Race V1"] = true;
-                    ["Evo Race V2"] = true;
-                    ["RGB Haki"] = true;
-                    ["Pull Lerver"] = true;
-                };
-                Sword = {
-                    "Dual-Headed Blade"; "Smoke Admiral"; "Wardens Sword"; "Cutlass"; "Katana";
-                    "Dual Katana"; "Triple Katana"; "Iron Mace"; "Saber"; "Pole (1st Form)";
-                    "Gravity Blade"; "Longsword"; "Rengoku"; "Midnight Blade"; "Soul Cane";
-                    "Bisento"; "Yama"; "Tushita"; "Cursed Dual Katana";
-                };
-                Gun = {
-                    "Skull Guitar"; "Kabucha"; "Venom Bow"; "Musket"; "Flintlock";
-                    "Refined Slingshot"; "Magma Blaster"; "Dual Flintlock"; "Cannon"; "Bizarre Revolver"; "Bazooka";
-                };
+                ["Quest"] = {["Evo Race V1"] = true; ["Evo Race V2"] = true; ["RGB Haki"] = true; ["Pull Lerver"] = true;};
+                Sword = {"Dual-Headed Blade"; "Smoke Admiral"; "Wardens Sword"; "Cutlass"; "Katana"; "Dual Katana"; "Triple Katana"; "Iron Mace"; "Saber"; "Pole (1st Form)"; "Gravity Blade"; "Longsword"; "Rengoku"; "Midnight Blade"; "Soul Cane"; "Bisento"; "Yama"; "Tushita"; "Cursed Dual Katana";};
+                Gun = {"Skull Guitar"; "Kabucha"; "Venom Bow"; "Musket"; "Flintlock"; "Refined Slingshot"; "Magma Blaster"; "Dual Flintlock"; "Cannon"; "Bizarre Revolver"; "Bazooka";};
                 ["Bypass TP"] = true;
                 ["Auto Active Race V4"] = true;
             }
             loadstring(game:HttpGet("https://raw.githubusercontent.com/realkidhub/realkid/refs/heads/main/kaitun.lua"))()
         end)
-    end, 'getgenv().Configs = {["Quest"] = {["Evo Race V1"] = true, ["Evo Race V2"] = true, ["RGB Haki"] = true, ["Pull Lerver"] = true}, Sword = {"Dual-Headed Blade", "Smoke Admiral", "Wardens Sword", "Cutlass", "Katana", "Dual Katana", "Triple Katana", "Iron Mace", "Saber", "Pole (1st Form)", "Gravity Blade", "Longsword", "Rengoku", "Midnight Blade", "Soul Cane", "Bisento", "Yama", "Tushita", "Cursed Dual Katana"}, Gun = {"Skull Guitar", "Kabucha", "Venom Bow", "Musket", "Flintlock", "Refined Slingshot", "Magma Blaster", "Dual Flintlock", "Cannon", "Bizarre Revolver", "Bazooka"}, ["Bypass TP"] = true, ["Auto Active Race V4"] = true} loadstring(game:HttpGet("https://raw.githubusercontent.com/realkidhub/realkid/refs/heads/main/kaitun.lua"))()')
+    end, 'getgenv().Configs = {...} loadstring(game:HttpGet("https://raw.githubusercontent.com/realkidhub/realkid/refs/heads/main/kaitun.lua"))()')
 
-    AddElement(BloxFruitHolder, "── SCRIPT KHÁC ──", "section")
+    -- TAB 4: Auto Chest & Server Hop
+    local ChestHopHolder = CreateTab("Auto Chest & Hop")
+    AddElement(ChestHopHolder, "── FARM HÒM (AUTO CHEST) ──", "section")
+    
+    AddElement(ChestHopHolder, "💰 Auto Lụm Rương (Bay Lướt Mượt)", "toggle", function(v)
+        ToggleAutoChest(v)
+    end)
 
-    AddElement(BloxFruitHolder, "⚡ BẬT SPEED HUB X", "button", function()
-        pcall(function()
-            loadstring(game:HttpGet("https://raw.githubusercontent.com/AhmadV99/Speed-Hub-X/main/Speed%20Hub%20X.lua"))()
+    AddElement(ChestHopHolder, "📦 HNC CHEST FARM", "button", function()
+        pcall(function() 
+            repeat wait() until game:IsLoaded() and game.Players.LocalPlayer; 
+            _G.AntiKick = true; _G.Team = "Marines"; _G.FpsBooster = true; _G.StopItems = false; _G.GetFruits = false; _G.HopServer = true; _G.HopTime = 150; _G.AutoJump = true; _G.ESPChests = false; _G.ESPFruits = true; _G.TweenMode = "TP"; 
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/Dev-Hinishi/Hinishi-Hub/refs/heads/main/FarmChest.lua"))() 
         end)
-    end, 'loadstring(game:HttpGet("https://raw.githubusercontent.com/AhmadV99/Speed-Hub-X/main/Speed%20Hub%20X.lua"))()')
+    end, 'loadstring(game:HttpGet("https://raw.githubusercontent.com/Dev-Hinishi/Hinishi-Hub/refs/heads/main/FarmChest.lua"))()')
 
-    AddElement(BloxFruitHolder, "💎 BẬT BLUE-X HUB (MAIN)", "button", function()
-        pcall(function()
-            loadstring(game:HttpGet("https://raw.githubusercontent.com/Dev-BlueX/BlueX-Hub/refs/heads/main/Main.lua"))()
+    AddElement(ChestHopHolder, "📦 KHANHLY AUTO CHEST", "button", function()
+        pcall(function() loadstring(game:HttpGet("https://raw.githubusercontent.com/khoavipok/khanhlyHUB/refs/heads/main/Farm%20chest%20pranium"))() end)
+    end, 'loadstring(game:HttpGet("https://raw.githubusercontent.com/khoavipok/khanhlyHUB/refs/heads/main/Farm%20chest%20pranium"))()')
+
+    AddElement(ChestHopHolder, "── TÌM SERVER (SERVER HOP) ──", "section")
+
+    AddElement(ChestHopHolder, "🔄 Server Hop (VisionX Finder)", "button", function()
+        pcall(function() loadstring(game:HttpGet("https://raw.githubusercontent.com/xSync-gg/VisionX/refs/heads/main/Server_Finder.lua"))() end)
+    end, 'loadstring(game:HttpGet("https://raw.githubusercontent.com/xSync-gg/VisionX/refs/heads/main/Server_Finder.lua"))()')
+
+    AddElement(ChestHopHolder, "🔄 Rise Server Finder", "button", function()
+        pcall(function() loadstring(game:HttpGet("https://rise-evo.xyz/apiv3/ServerFinder.lua"))() end)
+    end, 'loadstring(game:HttpGet("https://rise-evo.xyz/apiv3/ServerFinder.lua"))()')
+
+    -- TAB 5: PVP & Auto Bounty
+    local PvpBountyHolder = CreateTab("PVP & Bounty")
+    AddElement(PvpBountyHolder, "── TÍNH NĂNG PVP & AIMBOT ──", "section")
+
+    AddElement(PvpBountyHolder, "⚔️ Blox Kid PVP", "button", function()
+        pcall(function() loadstring(game:HttpGet("https://raw.githubusercontent.com/khoavipok/ScriptkhanhlyHUB/refs/heads/main/bloxkidPVP"))() end)
+    end, 'loadstring(game:HttpGet("https://raw.githubusercontent.com/khoavipok/ScriptkhanhlyHUB/refs/heads/main/bloxkidPVP"))()')
+
+    AddElement(PvpBountyHolder, "🎯 CentuDoxhub PVP (Cần Key)", "button", function()
+        pcall(function() loadstring(game:HttpGet("https://raw.githubusercontent.com/ParadozCode/CentuDox-Hub-Paradoz-Hub/refs/heads/main/CentuDox%20Aimbot.xyz"))() end)
+    end, 'loadstring(game:HttpGet("https://raw.githubusercontent.com/ParadozCode/CentuDox-Hub-Paradoz-Hub/refs/heads/main/CentuDox%20Aimbot.xyz"))()')
+
+    AddElement(PvpBountyHolder, "⚔️ Onion13 V3 PVP", "button", function()
+        pcall(function() loadstring(game:HttpGet("https://raw.githubusercontent.com/onion132005-bit/v3/refs/heads/main/onion13v3.lua"))() end)
+    end, 'loadstring(game:HttpGet("https://raw.githubusercontent.com/onion132005-bit/v3/refs/heads/main/onion13v3.lua"))()')
+
+    AddElement(PvpBountyHolder, "🎯 Catt Star Aimbot", "button", function()
+        pcall(function() loadstring(game:HttpGet("https://catt-star-aimbot-delta.vercel.app/api/aimbot"))() end)
+    end, 'loadstring(game:HttpGet("https://catt-star-aimbot-delta.vercel.app/api/aimbot"))()')
+
+    AddElement(PvpBountyHolder, "⚔️ Hermanos PVP", "button", function()
+        pcall(function() local script_mode = "PVP"; loadstring(game:HttpGet("https://raw.githubusercontent.com/hermanos-dev/hermanos-hub/refs/heads/main/Loader.lua"))() end)
+    end, 'local script_mode = "PVP"; loadstring(game:HttpGet("https://raw.githubusercontent.com/hermanos-dev/hermanos-hub/refs/heads/main/Loader.lua"))()')
+
+    AddElement(PvpBountyHolder, "── SĂN TIỀN THƯỞNG (AUTO BOUNTY) ──", "section")
+
+    AddElement(PvpBountyHolder, "💵 Sera Hub Auto Bounty (Có Key)", "button", function()
+        pcall(function() 
+            getgenv().config = {["Team"] = "Pirates", ["Use Race"] = true, ["MinBountyHunt"] = 0, ["MaxBountyHunt"] = 30000000, ["SafeHealth"] = 4000}; 
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/LumosSera/SeraHub/main/AutoBounty.lua"))() 
         end)
-    end, 'loadstring(game:HttpGet("https://raw.githubusercontent.com/Dev-BlueX/BlueX-Hub/refs/heads/main/Main.lua"))()')
+    end, 'getgenv().config = {...} loadstring(game:HttpGet("https://raw.githubusercontent.com/LumosSera/SeraHub/main/AutoBounty.lua"))()')
 
-    AddElement(BloxFruitHolder, "🔑 BẬT REALKID HUB (MAIN MENU)", "button", function()
-        pcall(function()
-            loadstring(game:HttpGet("https://raw.githubusercontent.com/realkidhub/realkid/refs/heads/main/main.lua"))()
+    AddElement(PvpBountyHolder, "🧸 Teddy Auto Bounty", "button", function()
+        pcall(function() 
+            repeat wait() until game:IsLoaded() and game.Players.LocalPlayer; 
+            getgenv().Setting = {["Team"] = "Pirates", ["Skip Race V4"] = true, ["Melee"] = {["Name Weapon"] = "", ["Enable"] = true, ["Z"] = {["Enable"] = true, ["HoldTime"] = 0.1}, ["X"] = {["Enable"] = true, ["HoldTime"] = 0.1}, ["C"] = {["Enable"] = true, ["HoldTime"] = 0.1}, ["Delay"] = 1.5}, ["Sword"] = {["Name Weapon"] = "", ["Enable"] = true, ["Z"] = {["Enable"] = true, ["HoldTime"] = 0.1}, ["X"] = {["Enable"] = true, ["HoldTime"] = 0.1}, ["Delay"] = 1}, ["Gun"] = {["Enable"] = true, ["Z"] = {["Enable"] = true, ["HoldTime"] = 0.1}, ["X"] = {["Enable"] = true, ["HoldTime"] = 0.1}, ["Delay"] = 1, ["GunMode"] = false}, ["Fruit"] = {["Enable"] = false, ["Z"] = {["Enable"] = true, ["HoldTime"] = 0.1}, ["X"] = {["Enable"] = true, ["HoldTime"] = 0.1}, ["C"] = {["Enable"] = true, ["HoldTime"] = 0.1}, ["V"] = {["Enable"] = false, ["HoldTime"] = 0.1}, ["F"] = {["Enable"] = true, ["HoldTime"] = 0.1}, ["Delay"] = 1}, ["Hunt"] = {["Min"] = 0, ["Max"] = 30000000}, ["Skip"] = {["Fruit"] = false, ["FruitList"] = {"Buddha", "Leopard", "T-Rex"}, ["SafeZone"] = true, ["NoHaki"] = true, ["NoPvP"] = true}, ["SafeHealth"] = {["Health"] = 4700, ["RaceV4"] = false}, ["Another"] = {["V3"] = true, ["V4"] = true, ["CustomHealth"] = true, ["Health"] = 4700, ["WhiteScreen"] = false, ["FPSBoots"] = false}, ["Webhook"] = {["Enabled"] = false, ["Url"] = ""}}; 
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/Teddyseetink/Haidepzai/refs/heads/main/TeddyHub-BountyEzz.lua"))() 
         end)
-    end, 'loadstring(game:HttpGet("https://raw.githubusercontent.com/realkidhub/realkid/refs/heads/main/main.lua"))()')
+    end, 'loadstring(game:HttpGet("https://raw.githubusercontent.com/Teddyseetink/Haidepzai/refs/heads/main/TeddyHub-BountyEzz.lua"))()')
 
-    AddElement(BloxFruitHolder, "📦 OMGSHIT MAIN LOADER", "button", function()
-        pcall(function()
-            loadstring(game:HttpGet("https://raw.githubusercontent.com/Omgshit/Scripts/main/MainLoader.lua"))()
+    AddElement(PvpBountyHolder, "⚡ God Hub Auto Bounty", "button", function()
+        pcall(function() 
+            repeat wait() until game:IsLoaded(); 
+            getgenv().Setting = {["Team"] = "Pirates", ["Chat"] = {}, ["Skip Race V4"] = true, ["Melee"] = {["Enable"] = true, ["Z"] = {["Enable"] = true, ["HoldTime"] = 0.1}, ["X"] = {["Enable"] = true, ["HoldTime"] = 0.1}, ["C"] = {["Enable"] = true, ["HoldTime"] = 0.1}, ["Delay"] = 1.5}, ["Sword"] = {["Enable"] = true, ["Z"] = {["Enable"] = true, ["HoldTime"] = 0.1}, ["X"] = {["Enable"] = true, ["HoldTime"] = 0.1}, ["Delay"] = 1}, ["Gun"] = {["Enable"] = false, ["Z"] = {["Enable"] = true, ["HoldTime"] = 0.1}, ["X"] = {["Enable"] = true, ["HoldTime"] = 0.1}, ["Delay"] = 1, ["GunMode"] = false}, ["Fruit"] = {["Enable"] = false, ["Z"] = {["Enable"] = true, ["HoldTime"] = 0.1}, ["X"] = {["Enable"] = true, ["HoldTime"] = 0.1}, ["C"] = {["Enable"] = true, ["HoldTime"] = 0.1}, ["V"] = {["Enable"] = false, ["HoldTime"] = 0.1}, ["F"] = {["Enable"] = true, ["HoldTime"] = 0.1}, ["Delay"] = 1}, ["Hunt"] = {["Min"] = 0, ["Max"] = 30000000}, ["Skip"] = {["Fruit"] = false, ["FruitList"] = {"Buddha", "Leopard", "T-Rex"}, ["SafeZone"] = true, ["NoHaki"] = true, ["NoPvP"] = true}, ["SafeHealth"] = {["Health"] = 4700, ["Mask"] = false, ["MaskType"] = "Mask", ["RaceV4"] = false}, ["Another"] = {["V3"] = true, ["V4"] = true, ["CustomHealth"] = true, ["Health"] = 4700, ["WhiteScreen"] = false, ["FPSBoots"] = false, ["AutoServerHop"] = true, ["HopWhenNoBounty"] = true, ["BountyLock"] = false, ["BountyLockAt"] = 30000000, ["ServerHopAfterTime"] = false, ["ServerHopTime"] = 900,["CheckCombatBeforeHop"] = true, ["MaxPlayersInServer"] = 8}, ["Webhook"] = {["Enabled"] = true, ["Url"] = ""}}; 
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/shinichi-dz/phucshinsayhi/refs/heads/main/AutoBounty.lua"))() 
         end)
-    end, 'loadstring(game:HttpGet("https://raw.githubusercontent.com/Omgshit/Scripts/main/MainLoader.lua"))()')
+    end, 'loadstring(game:HttpGet("https://raw.githubusercontent.com/shinichi-dz/phucshinsayhi/refs/heads/main/AutoBounty.lua"))()')
 
-    -- TAB 3: Evomon
-    local EvomonHolder = CreateTab("Evomon")
-    AddElement(EvomonHolder, "── PHẦN FARM ──", "section")
-    AddElement(EvomonHolder, "Auto Train Evomon (Cày cấp)", "toggle", function(v) print("Evomon Train:", v) end)
-
-    -- TAB 4: 99 Đêm
-    local Night99Holder = CreateTab("99 Đêm")
-    AddElement(Night99Holder, "── PHẦN NO KEY ──", "section")
-    AddElement(Night99Holder, "Auto Survival (Sinh tồn không cần key)", "toggle", function(v) print("99 Surv:", v) end)
-
-    -- TAB 5: Cài Đặt
+    -- TAB 6: Cài Đặt (Và kho Trái Ác Quỷ Fake / Tính năng nhân vật)
     local SettingsHolder = CreateTab("Cài Đặt")
     AddElement(SettingsHolder, "── GIAO DIỆN & HỆ THỐNG ──", "section", nil, nil, true)
     AddElement(SettingsHolder, "Tắt Kịch Bản HUHU HUB (Xóa Menu)", "button", function()
