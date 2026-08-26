@@ -1,6 +1,29 @@
 --[[
-    HUHU HUB V2 - BLUE THEME ULTIMATE EDITION (SMOOTH AUTO CHEST FIXED + FAKE FRUIT INVENTORY)
+    HUHU HUB V2 - BLUE THEME ULTIMATE EDITION (ANTI-OVERLAP FIXED + SMOOTH AUTO CHEST + FAKE FRUIT)
 ]]--
+
+repeat task.wait() until game:IsLoaded() and game:GetService("Players") and game.Players.LocalPlayer and game.Players.LocalPlayer:FindFirstChild("PlayerGui")
+
+-- CHỐNG CHỒNG LẶP KỊCH BẢN (Xóa toàn bộ UI cũ trước khi load cái mới)
+pcall(function()
+    local coreGui = game:GetService("CoreGui")
+    local gethui_func = gethui
+    
+    local function cleanOldUI(parent)
+        if not parent then return end
+        for _, obj in pairs(parent:GetChildren()) do
+            if obj:IsA("ScreenGui") and (string.find(obj.Name, "HuhuHub") or string.find(obj.Name, "FPS_Display")) then
+                obj:Destroy()
+            end
+        end
+    end
+    
+    if gethui_func then
+        cleanOldUI(gethui_func())
+    end
+    cleanOldUI(coreGui)
+    cleanOldUI(game.Players.LocalPlayer.PlayerGui)
+end)
 
 local UserInputService = game:GetService("UserInputService")
 local Players = game:GetService("Players")
@@ -663,9 +686,9 @@ local function LoadMainMenu()
 
     AddElement(BloxFruitHolder, "🧸 BẬT TEDDY HUB", "button", function()
         pcall(function()
-            loadstring(game:HttpGet("https://raw.githubusercontent.com/Teddyseetink/Haidepzai/refs/heads/main/TeddyHub.lua"))()
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/Teddyseetink/Haidepzai/refs/heads/main/TEDDYHUB-FREEMIUM"))()
         end)
-    end, 'loadstring(game:HttpGet("https://raw.githubusercontent.com/Teddyseetink/Haidepzai/refs/heads/main/TeddyHub.lua"))()')
+    end, 'loadstring(game:HttpGet("https://raw.githubusercontent.com/Teddyseetink/Haidepzai/refs/heads/main/TEDDYHUB-FREEMIUM"))()')
 
     AddElement(BloxFruitHolder, "🪐 BẬT GRAVITY HUB", "button", function()
         pcall(function()
@@ -800,7 +823,6 @@ local function LoadMainMenu()
 
                     fruitPart.Parent = workspace
 
-                    -- Xử lý va chạm: Chạm đất/vật cản -> Đứng yên vĩnh viễn (Chống rơi xuyên map)
                     local hitConnection
                     hitConnection = fruitPart.Touched:Connect(function(hit)
                         if hit and hit.Parent and not hit:IsDescendantOf(Player.Character) then
