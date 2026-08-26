@@ -690,6 +690,7 @@ local function LoadMainMenu()
         end)
     end, 'loadstring(game:HttpGet("https://raw.githubusercontent.com/Teddyseetink/Haidepzai/refs/heads/main/TEDDYHUB-FREEMIUM"))()')
 
+    -- ĐÃ THAY LINK NIGHT HUB MỚI Ở ĐÂY
     AddElement(BloxFruitHolder, "🌙 BẬT NIGHT HUB", "button", function()
         pcall(function()
             local Settings = {
