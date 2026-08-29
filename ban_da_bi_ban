@@ -1,0 +1,45 @@
+local coreGui = game:GetService("CoreGui")
+local textService = game:GetService("TextService")
+
+-- 1. Xóa bản cũ nếu đã tồn tại
+if coreGui:FindFirstChild("BanScreenGui") then
+    coreGui.BanScreenGui:Destroy()
+end
+
+-- 2. Tạo ScreenGui chính, đặt mức ưu tiên hiển thị cao nhất
+local screenGui = Instance.new("ScreenGui")
+screenGui.Name = "BanScreenGui"
+screenGui.IgnoreGuiInset = true
+screenGui.ZIndexBehavior = Enum.ZIndexBehavior.Global
+screenGui.DisplayOrder = 2000000000 -- Cực cao để đè mọi UI khác
+screenGui.Parent = coreGui
+
+-- 3. Tạo Frame màu đen phủ kín
+local blackFrame = Instance.new("Frame")
+blackFrame.Name = "BlackBackground"
+blackFrame.Size = UDim2.new(2, 0, 2, 0) -- Kích thước nhân đôi để đảm bảo tràn viền
+blackFrame.Position = UDim2.new(-0.5, 0, -0.5, 0) -- Căn giữa khung nhìn
+blackFrame.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+blackFrame.BorderSizePixel = 0
+blackFrame.ZIndex = 1
+blackFrame.Parent = screenGui
+
+-- 4. Tạo TextLabel chứa nội dung
+local textLabel = Instance.new("TextLabel")
+textLabel.Name = "WarningText"
+textLabel.Size = UDim2.new(0.8, 0, 0.3, 0) -- Chiếm 80% chiều ngang, 30% chiều dọc màn hình
+textLabel.Position = UDim2.new(0.1, 0, 0.35, 0) -- Căn giữa màn hình
+textLabel.BackgroundTransparency = 1 -- Trong suốt nền để hiện màu đen của frame
+textLabel.TextColor3 = Color3.fromRGB(255, 2, 2) -- Màu đỏ tươi
+textLabel.TextScaled = true -- Tự động co giãn chữ theo khung
+textLabel.TextWrapped = true -- Cho phép xuống dòng
+textLabel.Font = Enum.Font.SourceSansBold -- Font chữ đậm, dễ đọc
+textLabel.Text = "BẠN ĐÃ BỊ BAN" -- Nội dung chính
+textLabel.ZIndex = 2 -- Hiển thị trên lớp nền đen
+textLabel.Parent = screenGui
+
+-- (Tùy chọn) Thêm viền cho chữ để nổi bật hơn trên nền đen
+local textUIStroke = Instance.new("UIStroke")
+textUIStroke.Color = Color3.fromRGB(255, 255, 255) -- Viền màu trắng
+textUIStroke.Thickness = 2
+textUIStroke.Parent = textLabel
