@@ -1,0 +1,295 @@
+-- 1. Cấu hình chính của bạn
+getgenv()["Config"] = {
+    ["Fps Boost"] = true,
+    ["FPS Cap"] = 60,
+    ["Quests"] = {
+        ["Pull Level"] = true,
+        ["Upgrading Race"] = true,
+    },
+    ["Hopping"] = {
+        ["Auto Hop"] = true,
+        ["Hop Idle"] = true,
+        ["High Ping Hop"] = true,
+        ["Player Nearing Hop"] = true,
+    },
+    ["Sniper Fruit Shop"] = {
+        ["Enabled"] = true,
+        ["Fruit"] = {
+            "Kitsune-Kitsune",
+            "Dragon-Dragon"
+        },
+    },
+    ["Oneclick"] = {
+        ["Auto Fully Fighting Style"] = true,
+        ["Rainbow Haki"] = true,
+        ["Skull Guitar"] = true,
+        ["Cursed Dual Katana"] = true,
+        ["Saber"] = true,
+        ["Get Ghoul"] = true,
+        ["Collect Berries"] = true,
+        ["Haki Legendery"] = true,
+        ["TTK"] = true,
+    },
+}
+
+-- 2. Tính năng chống lặp lại (Xóa UI cũ nếu đã tồn tại trước khi chạy)
+pcall(function()
+    local CoreGui = game:GetService("CoreGui")
+    if CoreGui:FindFirstChild("KhiconHudUI") then
+        CoreGui.KhiconHudUI:Destroy()
+    end
+    if CoreGui:FindFirstChild("KhiconInfoMenu") then
+        CoreGui.KhiconInfoMenu:Destroy()
+    end
+end)
+
+-- 3. Tạo giao diện UI (Màn hình đen, bảng giá cày thuê & đồ lặt vặt, chữ spam ở giữa)
+task.spawn(function()
+    pcall(function()
+        local CoreGui = game:GetService("CoreGui")
+        local Players = game:GetService("Players")
+        local player = Players.LocalPlayer
+        local playerGui = player:FindFirstChildOfClass("PlayerGui") or CoreGui
+
+        -- Tạo ScreenGui chính
+        local ScreenGui = Instance.new("ScreenGui")
+        ScreenGui.Name = "KhiconHudUI"
+        ScreenGui.IgnoreGuiInset = true
+        ScreenGui.ResetOnSpawn = false
+        
+        pcall(function()
+            ScreenGui.Parent = CoreGui
+        end)
+        if not ScreenGui.Parent then
+            ScreenGui.Parent = playerGui
+        end
+
+        -- Frame màn hình đen full
+        local BlackScreen = Instance.new("Frame")
+        BlackScreen.Name = "BlackScreen"
+        BlackScreen.Size = UDim2.new(1, 0, 1, 0)
+        BlackScreen.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+        BlackScreen.Visible = false
+        BlackScreen.Parent = ScreenGui
+
+        -- Bảng hiển thị giá cày thuê và đồ lặt vặt
+        local PriceBoard = Instance.new("ScrollingFrame")
+        PriceBoard.Size = UDim2.new(0, 320, 0, 340)
+        PriceBoard.AnchorPoint = Vector2.new(0.5, 0.5)
+        PriceBoard.Position = UDim2.new(0.5, 0, 0.5, 0)
+        PriceBoard.BackgroundColor3 = Color3.fromRGB(15, 15, 25)
+        PriceBoard.BackgroundTransparency = 0.2
+        PriceBoard.BorderSizePixel = 0
+        PriceBoard.CanvasSize = UDim2.new(0, 0, 0, 480)
+        PriceBoard.ScrollBarThickness = 4
+        PriceBoard.Visible = false
+        PriceBoard.Parent = BlackScreen
+
+        local PBCorner = Instance.new("UICorner")
+        PBCorner.CornerRadius = UDim.new(0, 12)
+        PBCorner.Parent = PriceBoard
+
+        local PBStroke = Instance.new("UIStroke")
+        PBStroke.Color = Color3.fromRGB(0, 150, 255)
+        PBStroke.Thickness = 2
+        PBStroke.Parent = PriceBoard
+
+        local PBTitle = Instance.new("TextLabel")
+        PBTitle.Size = UDim2.new(1, 0, 0, 40)
+        PBTitle.BackgroundColor3 = Color3.fromRGB(0, 110, 200)
+        PBTitle.BackgroundTransparency = 0.3
+        PBTitle.Text = "🔥 BẢNG GIÁ CÀY THUÊ & ĐỒ LẶT VẶT 🔥"
+        PBTitle.TextColor3 = Color3.fromRGB(255, 255, 255)
+        PBTitle.TextSize = 13
+        PBTitle.Font = Enum.Font.GothamBold
+        PBTitle.Parent = PriceBoard
+
+        local PBTitleCorner = Instance.new("UICorner")
+        PBTitleCorner.CornerRadius = UDim.new(0, 12)
+        PBTitleCorner.Parent = PBTitle
+
+        local PBText = Instance.new("TextLabel")
+        PBText.Size = UDim2.new(1, -24, 0, 420)
+        PBText.Position = UDim2.new(0, 12, 0, 45)
+        PBText.BackgroundTransparency = 1
+        PBText.TextColor3 = Color3.fromRGB(240, 240, 255)
+        PBText.TextSize = 12
+        PBText.Font = Enum.Font.GothamMedium
+        PBText.TextXAlignment = Enum.TextXAlignment.Left
+        PBText.TextYAlignment = Enum.TextYAlignment.Top
+        PBText.TextWrapped = true
+        PBText.Text = 
+            "📌 **DỊCH VỤ CÀY LEVEL:**\n" ..
+            "• Cày Max Level: 70k\n" ..
+            "• Cày lên Sea 2: 20k\n" ..
+            "• Cày lên Sea 3: 50k\n\n" ..
+            "🗡️ **ĐỒ LẶT VẶT & KIẾM:**\n" ..
+            "• Cursed Dual Katana (CDK): 120k\n" ..
+            "• True Triple Katana (TTK): 100k\n" ..
+            "• Skull Guitar (Soul Guitar): 80k\n" ..
+            "• Haki Lệnh (Legendary Haki): 30k\n" ..
+            "• Săn Gourd / Torch / Cup: 30k\n" ..
+            "• Lấy các loại Kiếm Thường / Phụ kiện: 25k - 50k\n\n" ..
+            "⭐ Shop uy tín 100%\n" ..
+            "📲 Ai cần cày thuê ib TikTok @khiconchoiff"
+            "vui lòng đợi"
+        PBText.Parent = PriceBoard
+
+        -- Label để spam chữ ở giữa màn hình trong 2 giây đầu
+        local SpamText = Instance.new("TextLabel")
+        SpamText.Size = UDim2.new(0, 600, 0, 150)
+        SpamText.Position = UDim2.new(0.5, -300, 0.5, -75)
+        SpamText.BackgroundTransparency = 1
+        SpamText.TextColor3 = Color3.fromRGB(0, 150, 255)
+        SpamText.TextSize = 28
+        SpamText.Font = Enum.Font.GothamBold
+        SpamText.TextWrapped = true
+        SpamText.Parent = ScreenGui
+
+        -- Vòng lặp spam trong 2 giây
+        local startTime = tick()
+        while tick() - startTime < 2 do
+            SpamText.Text = "Huhu hud by khicon\nIb tiktok @khiconchoiff"
+            task.wait(0.1)
+            SpamText.Text = ""
+            task.wait(0.1)
+        end
+        
+        -- Hết 2 giây, ẩn chữ spam, bật màn hình đen kèm bảng giá
+        SpamText:Destroy()
+        BlackScreen.Visible = true
+        PriceBoard.Visible = true
+
+        -- Chờ 5 giây để người chơi xem bảng giá cày thuê trước khi vào game
+        task.wait(5)
+
+        -- 4. Chạy lệnh Fix Lag mới của bạn
+        pcall(function()
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/Graihub/graihubfixlagv3/refs/heads/main/fixlagv3"))()
+        end)
+
+        -- 5. Tải và chạy Script chính (TeddyHub Kaitun)
+        pcall(function()
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/teddyhubdev/diepvy/refs/heads/main/TeddyHub-kaitunBF.lua"))()
+        end)
+
+        -- Xóa màn hình đen đi để vào game
+        ScreenGui:Destroy()
+
+        -- 6. Tạo Menu Thông Tin Trong Suốt, Căn Giữa Màn Hình (Gọn gàng cho điện thoại)
+        task.spawn(function()
+            pcall(function()
+                local InfoGui = Instance.new("ScreenGui")
+                InfoGui.Name = "KhiconInfoMenu"
+                InfoGui.ResetOnSpawn = false
+                InfoGui.Parent = CoreGui
+
+                local MainFrame = Instance.new("Frame")
+                MainFrame.Size = UDim2.new(0, 300, 0, 220)
+                MainFrame.AnchorPoint = Vector2.new(0.5, 0.5)
+                MainFrame.Position = UDim2.new(0.5, 0, 0.5, 0)
+                MainFrame.BackgroundColor3 = Color3.fromRGB(10, 20, 35)
+                MainFrame.BackgroundTransparency = 0.35 
+                MainFrame.BorderSizePixel = 0
+                MainFrame.Parent = InfoGui
+
+                local UICorner = Instance.new("UICorner")
+                UICorner.CornerRadius = UDim.new(0, 10)
+                UICorner.Parent = MainFrame
+
+                local UIStroke = Instance.new("UIStroke")
+                UIStroke.Color = Color3.fromRGB(0, 170, 255)
+                UIStroke.Transparency = 0.2
+                UIStroke.Thickness = 1.5
+                UIStroke.Parent = MainFrame
+
+                local Title = Instance.new("TextLabel")
+                Title.Size = UDim2.new(1, 0, 0, 36)
+                Title.BackgroundColor3 = Color3.fromRGB(0, 110, 200)
+                Title.BackgroundTransparency = 0.3
+                Title.Text = "menu thông tin by khiconchoiff"
+                Title.TextColor3 = Color3.fromRGB(255, 255, 255)
+                Title.TextSize = 13
+                Title.Font = Enum.Font.GothamBold
+                Title.Parent = MainFrame
+
+                local TitleCorner = Instance.new("UICorner")
+                TitleCorner.CornerRadius = UDim.new(0, 10)
+                TitleCorner.Parent = Title
+
+                local FixCorner = Instance.new("Frame")
+                FixCorner.Size = UDim2.new(1, 0, 0, 10)
+                FixCorner.Position = UDim2.new(0, 0, 1, -10)
+                FixCorner.BackgroundColor3 = Color3.fromRGB(0, 110, 200)
+                FixCorner.BackgroundTransparency = 0.3
+                FixCorner.BorderSizePixel = 0
+                FixCorner.Parent = Title
+
+                local InfoText = Instance.new("TextLabel")
+                InfoText.Size = UDim2.new(1, -24, 1, -45)
+                InfoText.Position = UDim2.new(0, 12, 0, 42)
+                InfoText.BackgroundTransparency = 1
+                InfoText.TextColor3 = Color3.fromRGB(230, 245, 255)
+                InfoText.TextSize = 11.5
+                InfoText.Font = Enum.Font.GothamMedium
+                InfoText.TextXAlignment = Enum.TextXAlignment.Left
+                InfoText.TextYAlignment = Enum.TextYAlignment.Top
+                InfoText.TextWrapped = true
+                InfoText.Parent = MainFrame
+
+                task.spawn(function()
+                    while true do
+                        pcall(function()
+                            local data = player:FindFirstChild("Data")
+                            local lvl = data and data:FindFirstChild("Level") and data.Level.Value or "N/A"
+                            local beli = data and data:FindFirstChild("Beli") and data.Beli.Value or "N/A"
+                            local frag = data and data:FindFirstChild("Fragments") and data.Fragments.Value or "N/A"
+                            
+                            local race = "N/A"
+                            if data and data:FindFirstChild("Race") then
+                                race = data.Race.Value
+                            end
+
+                            local bounty = "N/A"
+                            if data and data:FindFirstChild("Bounty") then
+                                bounty = data.Bounty.Value
+                            elseif player:FindFirstChild("leaderstats") and player.leaderstats:FindFirstChild("Bounty") then
+                                bounty = player.leaderstats.Bounty.Value
+                            end
+
+                            local currentWeapon = "Không cầm gì"
+                            local character = player.Character
+                            if character and character:FindFirstChildOfClass("Tool") then
+                                currentWeapon = character:FindFirstChildOfClass("Tool").Name
+                            end
+
+                            local charName = player.Name .. " (" .. player.DisplayName .. ")"
+                            local gameName = "Blox Fruits"
+
+                            InfoText.Text = string.format(
+                                "Tên: %s\n" ..
+                                "Game: %s\n" ..
+                                "Level: %s\n" ..
+                                "Beli: %s\n" ..
+                                "Fragment: %s\n" ..
+                                "Race: %s\n" ..
+                                "Bounty: %s\n" ..
+                                "Đang cầm: %s",
+                                tostring(charName),
+                                tostring(gameName),
+                                tostring(lvl),
+                                tostring(beli),
+                                tostring(frag),
+                                tostring(race),
+                                tostring(bounty),
+                                tostring(currentWeapon)
+                            )
+                        end)
+                        task.wait(0.5)
+                    end
+                end)
+            end)
+        end)
+
+    end)
+end)
