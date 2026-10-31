@@ -43,7 +43,7 @@ pcall(function()
     end
 end)
 
--- 3. Tạo giao diện UI (Màn hình đen, bảng giá cày thuê & đồ lặt vặt, chữ spam ở giữa)
+-- 3. Tạo giao diện UI (Màn hình đen, Bảng giá bên trái, Khung nhập Key bên phải)
 task.spawn(function()
     pcall(function()
         local CoreGui = game:GetService("CoreGui")
@@ -72,18 +72,25 @@ task.spawn(function()
         BlackScreen.Visible = false
         BlackScreen.Parent = ScreenGui
 
-        -- Bảng hiển thị giá cày thuê và đồ lặt vặt
+        -- Container chính đặt giữa màn hình để chứa 2 bảng (Bảng giá + Khung Key)
+        local Container = Instance.new("Frame")
+        Container.Size = UDim2.new(0, 660, 0, 340)
+        Container.AnchorPoint = Vector2.new(0.5, 0.5)
+        Container.Position = UDim2.new(0.5, 0, 0.5, 0)
+        Container.BackgroundTransparency = 1
+        Container.Visible = false
+        Container.Parent = BlackScreen
+
+        -- BẢNG GIÁ (Bên trái)
         local PriceBoard = Instance.new("ScrollingFrame")
         PriceBoard.Size = UDim2.new(0, 320, 0, 340)
-        PriceBoard.AnchorPoint = Vector2.new(0.5, 0.5)
-        PriceBoard.Position = UDim2.new(0.5, 0, 0.5, 0)
+        PriceBoard.Position = UDim2.new(0, 0, 0, 0)
         PriceBoard.BackgroundColor3 = Color3.fromRGB(15, 15, 25)
         PriceBoard.BackgroundTransparency = 0.2
         PriceBoard.BorderSizePixel = 0
         PriceBoard.CanvasSize = UDim2.new(0, 0, 0, 480)
         PriceBoard.ScrollBarThickness = 4
-        PriceBoard.Visible = false
-        PriceBoard.Parent = BlackScreen
+        PriceBoard.Parent = Container
 
         local PBCorner = Instance.new("UICorner")
         PBCorner.CornerRadius = UDim.new(0, 12)
@@ -100,7 +107,7 @@ task.spawn(function()
         PBTitle.BackgroundTransparency = 0.3
         PBTitle.Text = "🔥 BẢNG GIÁ CÀY THUÊ & ĐỒ LẶT VẶT 🔥"
         PBTitle.TextColor3 = Color3.fromRGB(255, 255, 255)
-        PBTitle.TextSize = 13
+        PBTitle.TextSize = 12.5
         PBTitle.Font = Enum.Font.GothamBold
         PBTitle.Parent = PriceBoard
 
@@ -119,11 +126,11 @@ task.spawn(function()
         PBText.TextYAlignment = Enum.TextYAlignment.Top
         PBText.TextWrapped = true
         PBText.Text = 
-            "📌 **DỊCH VỤ CÀY LEVEL:**\n" ..
+            "📌 **DỊCH VỤ CÀY LEVEL & SEA:**\n" ..
             "• Cày Max Level: 70k\n" ..
             "• Cày lên Sea 2: 20k\n" ..
             "• Cày lên Sea 3: 50k\n\n" ..
-            "🗡️ **ĐỒ LẶT VẶT & KIẾM:**\n" ..
+            "🗡️ **ĐỒ LẶT VẶT & KIẾM (TỪ 20K+):**\n" ..
             "• Cursed Dual Katana (CDK): 120k\n" ..
             "• True Triple Katana (TTK): 100k\n" ..
             "• Skull Guitar (Soul Guitar): 80k\n" ..
@@ -131,9 +138,94 @@ task.spawn(function()
             "• Săn Gourd / Torch / Cup: 30k\n" ..
             "• Lấy các loại Kiếm Thường / Phụ kiện: 25k - 50k\n\n" ..
             "⭐ Shop uy tín 100%\n" ..
-            "📲 Ai cần cày thuê ib TikTok @khiconchoiff"
-            "vui lòng đợi"
+            "📲 Ib TikTok: @khiconchoiff"
         PBText.Parent = PriceBoard
+
+        -- KHUNG NHẬP KEY (Bên phải)
+        local KeyBoard = Instance.new("Frame")
+        KeyBoard.Size = UDim2.new(0, 320, 0, 340)
+        KeyBoard.Position = UDim2.new(0, 340, 0, 0)
+        KeyBoard.BackgroundColor3 = Color3.fromRGB(15, 15, 25)
+        KeyBoard.BackgroundTransparency = 0.2
+        KeyBoard.BorderSizePixel = 0
+        KeyBoard.Parent = Container
+
+        local KBCorner = Instance.new("UICorner")
+        KBCorner.CornerRadius = UDim.new(0, 12)
+        KBCorner.Parent = KeyBoard
+
+        local KBStroke = Instance.new("UIStroke")
+        KBStroke.Color = Color3.fromRGB(0, 150, 255)
+        KBStroke.Thickness = 2
+        KBStroke.Parent = KeyBoard
+
+        local KBTitle = Instance.new("TextLabel")
+        KBTitle.Size = UDim2.new(1, 0, 0, 40)
+        KBTitle.BackgroundColor3 = Color3.fromRGB(0, 110, 200)
+        KBTitle.BackgroundTransparency = 0.3
+        KBTitle.Text = "🔑 NHẬP KEY ĐỂ TIẾP TỤC"
+        KBTitle.TextColor3 = Color3.fromRGB(255, 255, 255)
+        KBTitle.TextSize = 13
+        KBTitle.Font = Enum.Font.GothamBold
+        KBTitle.Parent = KeyBoard
+
+        local KBTitleCorner = Instance.new("UICorner")
+        KBTitleCorner.CornerRadius = UDim.new(0, 12)
+        KBTitleCorner.Parent = KBTitle
+
+        local KBDesc = Instance.new("TextLabel")
+        KBDesc.Size = UDim2.new(1, -30, 0, 60)
+        KBDesc.Position = UDim2.new(0, 15, 0, 50)
+        KBDesc.BackgroundTransparency = 1
+        KBDesc.Text = "Ib TikTok @khiconchoiff để lấy key.\nNhập key vào ô bên dưới để mở khóa script."
+        KBDesc.TextColor3 = Color3.fromRGB(220, 235, 255)
+        KBDesc.TextSize = 12
+        KBDesc.Font = Enum.Font.Gotham
+        KBDesc.TextWrapped = true
+        KBDesc.Parent = KeyBoard
+
+        -- Ô nhập Key (TextBox)
+        local KeyInput = Instance.new("TextBox")
+        KeyInput.Size = UDim2.new(1, -40, 0, 45)
+        KeyInput.Position = UDim2.new(0, 20, 0, 130)
+        KeyInput.BackgroundColor3 = Color3.fromRGB(20, 35, 60)
+        KeyInput.TextColor3 = Color3.fromRGB(255, 255, 255)
+        KeyInput.PlaceholderText = "Nhập key vào đây..."
+        KeyInput.PlaceholderColor3 = Color3.fromRGB(150, 170, 200)
+        KeyInput.TextSize = 14
+        KeyInput.Font = Enum.Font.GothamBold
+        KeyInput.ClearTextOnFocus = false
+        KeyInput.Parent = KeyBoard
+
+        local InputCorner = Instance.new("UICorner")
+        InputCorner.CornerRadius = UDim.new(0, 8)
+        InputCorner.Parent = KeyInput
+
+        -- Nút Xác Nhận (Verify Button)
+        local VerifyBtn = Instance.new("TextButton")
+        VerifyBtn.Size = UDim2.new(1, -40, 0, 45)
+        VerifyBtn.Position = UDim2.new(0, 20, 0, 190)
+        VerifyBtn.BackgroundColor3 = Color3.fromRGB(0, 130, 255)
+        VerifyBtn.Text = "XÁC NHẬN KEY"
+        VerifyBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+        VerifyBtn.TextSize = 14
+        VerifyBtn.Font = Enum.Font.GothamBold
+        VerifyBtn.Parent = KeyBoard
+
+        local BtnCorner = Instance.new("UICorner")
+        BtnCorner.CornerRadius = UDim.new(0, 8)
+        VerifyBtn.Parent = KeyBoard
+
+        -- Thông báo trạng thái sai/đúng key
+        local StatusText = Instance.new("TextLabel")
+        StatusText.Size = UDim2.new(1, -20, 0, 30)
+        StatusText.Position = UDim2.new(0, 10, 0, 245)
+        StatusText.BackgroundTransparency = 1
+        StatusText.Text = ""
+        StatusText.TextColor3 = Color3.fromRGB(255, 75, 75)
+        StatusText.TextSize = 12
+        StatusText.Font = Enum.Font.GothamBold
+        StatusText.Parent = KeyBoard
 
         -- Label để spam chữ ở giữa màn hình trong 2 giây đầu
         local SpamText = Instance.new("TextLabel")
@@ -155,13 +247,29 @@ task.spawn(function()
             task.wait(0.1)
         end
         
-        -- Hết 2 giây, ẩn chữ spam, bật màn hình đen kèm bảng giá
+        -- Hết 2 giây, ẩn chữ spam, bật màn hình đen kèm bảng giá và bảng nhập key
         SpamText:Destroy()
         BlackScreen.Visible = true
-        PriceBoard.Visible = true
+        Container.Visible = true
 
-        -- Chờ 5 giây để người chơi xem bảng giá cày thuê trước khi vào game
-        task.wait(5)
+        -- Biến cờ kiểm tra khi nào nhập đúng key để tiếp tục
+        local keyVerified = false
+
+        VerifyBtn.MouseButton1Click:Connect(function()
+            if KeyInput.Text == "261291" then
+                keyVerified = true
+                StatusText.TextColor3 = Color3.fromRGB(0, 255, 100)
+                StatusText.Text = "✔ Nhập key thành công! Đang vào game..."
+                task.wait(1)
+                ScreenGui:Destroy()
+            else
+                StatusText.TextColor3 = Color3.fromRGB(255, 75, 75)
+                StatusText.Text = "❌ Sai key! Vui lòng ib TikTok @khiconchoiff"
+            end
+        end)
+
+        -- Đợi người chơi nhập đúng key mới cho chạy tiếp script phía sau
+        repeat task.wait(0.5) until keyVerified
 
         -- 4. Chạy lệnh Fix Lag mới của bạn
         pcall(function()
@@ -172,9 +280,6 @@ task.spawn(function()
         pcall(function()
             loadstring(game:HttpGet("https://raw.githubusercontent.com/teddyhubdev/diepvy/refs/heads/main/TeddyHub-kaitunBF.lua"))()
         end)
-
-        -- Xóa màn hình đen đi để vào game
-        ScreenGui:Destroy()
 
         -- 6. Tạo Menu Thông Tin Trong Suốt, Căn Giữa Màn Hình (Gọn gàng cho điện thoại)
         task.spawn(function()
@@ -267,14 +372,14 @@ task.spawn(function()
                             local gameName = "Blox Fruits"
 
                             InfoText.Text = string.format(
-                                "Tên: %s\n" ..
-                                "Game: %s\n" ..
-                                "Level: %s\n" ..
-                                "Beli: %s\n" ..
-                                "Fragment: %s\n" ..
-                                "Race: %s\n" ..
-                                "Bounty: %s\n" ..
-                                "Đang cầm: %s",
+                                "👤 Tên: %s\n" ..
+                                "🎮 Game: %s\n" ..
+                                "⚡ Level: %s\n" ..
+                                "💰 Beli: %s\n" ..
+                                "🔮 Fragment: %s\n" ..
+                                "🧬 Race: %s\n" ..
+                                "⚔️ Bounty: %s\n" ..
+                                "🗡️ Đang cầm: %s",
                                 tostring(charName),
                                 tostring(gameName),
                                 tostring(lvl),
